@@ -2,9 +2,9 @@ import { Expense, YyyyMmDd } from "./types";
 
 const names = ['foo', 'baz', 'bar']
 
-const categories: (keyof typeof subcategories)[] = ['car', 'motorbike', 'food', 'restaurant']
+export const categories: (keyof typeof subcategories)[] = ['car', 'motorbike', 'food', 'restaurant']
 
-const subcategories = {
+export const subcategories = {
     car: ['insurance', 'buy', 'tax', 'wheels', 'toll'],
     motorbike: ['insurance', 'buy', 'tax', 'wheels', 'maintenance'],
     food: ['food'],

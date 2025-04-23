@@ -1,10 +1,10 @@
 import { createSignal } from "solid-js";
-import { fakeExpenses } from "./faker";
 import { useSearchParams } from "@solidjs/router";
 import { Expense, SearchParams, YyyyMmDd } from "./types";
 import { subMonths, subWeeks, subYears } from "date-fns";
+import * as faker from './faker';
 
-export const [data, setData] = createSignal(fakeExpenses(50))
+export const [data, setData] = createSignal(faker.fakeExpenses(50))
 
 export const filteredData = () => {
     const [searchParams] = useSearchParams<SearchParams>();
@@ -58,3 +58,6 @@ export const addExpense = (formData: { [k: string]: FormDataEntryValue }) => {
     } as Expense
     setData(data().concat(newExpense))
 }
+
+const [categories, setCategories] = createSignal(faker.categories)
+const [subCategories, setSubCategories] = createSignal(faker.subcategories)
