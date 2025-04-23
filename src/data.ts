@@ -25,6 +25,10 @@ export const filteredData = () => {
     })
 }
 
+export const getTotal = () => {
+    return filteredData().reduce((tot, expense) => tot + expense.value, 0)
+}
+
 export const addExpense = (formData: { [k: string]: FormDataEntryValue }) => {
     if (typeof formData.name !== 'string') {
         throw new Error('bad name')

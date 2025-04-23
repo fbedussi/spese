@@ -1,10 +1,11 @@
 import { useSearchParams } from "@solidjs/router";
 import styles from './PeriodSelection.module.css'
 import { SearchParams, YyyyMmDd } from "~/types";
-import { getFormData } from "~/helpers";
+import { formatMoney, getFormData } from "~/helpers";
 import { format } from "date-fns";
 import { createSignal } from "solid-js";
 import { Dialog } from "./Dialog";
+import { getTotal } from "~/data";
 
 function Button(props: { label: string }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -69,7 +70,7 @@ export default function PeriodSelection() {
           </article>
         </Dialog>
       </div>
-      <p>{getLabel(searchParams)}</p>
+      <p>{getLabel(searchParams)}: {formatMoney(getTotal())}</p>
     </div>
   );
 }

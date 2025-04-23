@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { filteredData } from "~/data";
+import { formatMoney } from "~/helpers";
 
 export function ExpensesList() {
     return (
@@ -17,7 +18,7 @@ export function ExpensesList() {
                     .map(({ name, date, value, category, subcategory, span }) => (<tr>
                         <td>{format(date.getDate(), 'dd/MM')}</td>
                         <td>{name}</td>
-                        <td>{value}</td>
+                        <td>{formatMoney(value)}</td>
 
                     </tr>))}
             </tbody>
