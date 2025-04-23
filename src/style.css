@@ -17,10 +17,6 @@ header {
 *[popover] {
     border: none;
     background: transparent;
-
-    &::backdrop {
-        background-color: rgba(0, 0, 0, 0.5);
-    }
 }
 
 .modal-buttons {

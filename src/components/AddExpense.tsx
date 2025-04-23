@@ -1,24 +1,22 @@
-import { Expense, YyyyMmDd } from '~/types'
+import { YyyyMmDd } from '~/types'
 import styles from './addExpense.module.css'
 import { addExpense } from '~/data'
-
-function getFormData(form: HTMLFormElement) {
-    const formData = new FormData(form)
-    return Object.fromEntries(formData)
-}
+import { getFormData } from '~/helpers'
+import { createSignal } from 'solid-js'
 
 export function AddExpense() {
-    let popover: HTMLDivElement | undefined
+    const [dialogOpen, setDialogOpen] = createSignal(false)
+
     return (
         <>
-            <button popovertarget="add-form" class={styles.cta}>+</button>
-            <div popover id="add-form" ref={popover}>
+            <button onClick={() => setDialogOpen(true)} class={styles.cta}>+</button>
+            <dialog popover open={dialogOpen()}>
                 <article>
-                    <form onSubmit={(ev => {
+                    <form id="add-expense-form" onSubmit={(ev => {
                         ev.preventDefault();
                         const newExpense = getFormData(ev.currentTarget);
                         addExpense(newExpense)
-                        popover?.hidePopover()
+                        setDialogOpen(false)
                     })}>
                         <label>
                             Data
@@ -55,13 +53,13 @@ export function AddExpense() {
                             </label>
 
                         </div>
-                        <div class="modal-buttons">
-                            <button type="button" class="outline secondary" popovertarget="add-form" popover-action="close">cancel</button>
-                            <button>salva</button>
-                        </div>
                     </form>
+                    <footer>
+                        <button class="outline secondary" onClick={() => setDialogOpen(false)}>cancel</button>
+                        <button form="add-expense-form">salva</button>
+                    </footer>
                 </article>
-            </div>
+            </dialog>
         </>
     )
 }

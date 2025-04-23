@@ -1,20 +1,27 @@
 import { createSignal } from "solid-js";
 import { fakeExpenses } from "./faker";
 import { useSearchParams } from "@solidjs/router";
-import { Expense, YyyyMmDd } from "./types";
+import { Expense, SearchParams, YyyyMmDd } from "./types";
 import { subMonths, subWeeks, subYears } from "date-fns";
 
 export const [data, setData] = createSignal(fakeExpenses(50))
 
 export const filteredData = () => {
-    const [searchParams] = useSearchParams<{ period: '1s' | '1m' | '1a' }>();
+    const [searchParams] = useSearchParams<SearchParams>();
+
     return data().filter(({ date }) => {
-        const periodMap = {
-            '1s': new YyyyMmDd(subWeeks(new Date(), 1)),
-            '1m': new YyyyMmDd(subMonths(new Date(), 1)),
-            '1a': new YyyyMmDd(subYears(new Date(), 1)),
-        } as const
-        return searchParams.period ? date.gte(periodMap[searchParams.period]) : true
+        if (searchParams.period === 'c' && searchParams.from && searchParams.to) {
+            return date.gte(searchParams.from) && date.lte(searchParams.to)
+        } else if (searchParams.period && searchParams.period !== 'c') {
+            const periodMap = {
+                '1s': new YyyyMmDd(subWeeks(new Date(), 1)),
+                '1m': new YyyyMmDd(subMonths(new Date(), 1)),
+                '1a': new YyyyMmDd(subYears(new Date(), 1)),
+            } as const
+            return date.gte(periodMap[searchParams.period])
+        } else {
+            return true
+        }
     })
 }
 

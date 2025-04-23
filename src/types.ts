@@ -19,6 +19,14 @@ export class YyyyMmDd {
         const normalizedOther = typeof other === 'string' ? new YyyyMmDd(other) : other
         return this.get() >= normalizedOther.get()
     }
+
+    lte(other?: YyyyMmDd | string) {
+        if (!other) {
+            return true
+        }
+        const normalizedOther = typeof other === 'string' ? new YyyyMmDd(other) : other
+        return this.get() <= normalizedOther.get()
+    }
 }
 
 type Categories = {
@@ -42,3 +50,5 @@ export type Expense<C extends Category = Category> = {
     span: number
     value: number
 }
+
+export type SearchParams = { period: 'c', from: string, to: string }
