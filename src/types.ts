@@ -29,23 +29,11 @@ export class YyyyMmDd {
     }
 }
 
-type Categories = {
-    car: 'insurance' | 'buy' | 'tax' | 'wheels' | 'maintenance' | 'toll'
-    motorbike: 'insurance' | 'buy' | 'tax' | 'wheels' | 'maintenance'
-    food: 'food',
-    restaurant: 'take away pizza' | 'bologna js' | 'xpug' | 'family'
-}
-
-export type Category = keyof Categories
-
-export type Subcategory<C extends Category> = Categories[C]
-
-
-export type Expense<C extends Category = Category> = {
+export type Expense = {
     name: string
     date: YyyyMmDd
-    category: C
-    subcategory: Subcategory<C>
+    category: string
+    subcategory: string
     // in months
     span: number
     value: number

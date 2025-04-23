@@ -19,7 +19,6 @@ export function ExpensesList() {
                         <td>{format(date.getDate(), 'dd/MM')}</td>
                         <td>{name}</td>
                         <td>{formatMoney(value)}</td>
-
                     </tr>))}
             </tbody>
         </table>

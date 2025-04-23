@@ -1,15 +1,15 @@
-import { Category, Expense, Subcategory, YyyyMmDd } from "./types";
+import { Expense, YyyyMmDd } from "./types";
 
 const names = ['foo', 'baz', 'bar']
 
-const categories: Category[] = ['car', 'motorbike', 'food', 'restaurant']
+const categories: (keyof typeof subcategories)[] = ['car', 'motorbike', 'food', 'restaurant']
 
-const subcategories: { [C in Category]: Subcategory<C>[] } = {
+const subcategories = {
     car: ['insurance', 'buy', 'tax', 'wheels', 'toll'],
     motorbike: ['insurance', 'buy', 'tax', 'wheels', 'maintenance'],
     food: ['food'],
     restaurant: ['take away pizza', 'bologna js', 'xpug', 'family'],
-}
+} as const
 
 const spans = [1, 12]
 
@@ -17,7 +17,7 @@ export function getRandomNumber(max: number) {
     return Math.round(Math.random() * max)
 }
 
-function pickRandom<T>(arr: T[]): T {
+function pickRandom<T>(arr: readonly T[]): T {
     return arr[getRandomNumber(arr.length - 1)]
 }
 
