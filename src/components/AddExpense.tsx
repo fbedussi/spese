@@ -3,6 +3,7 @@ import styles from './addExpense.module.css'
 import { addExpense } from '~/data'
 import { getFormData } from '~/helpers'
 import { createSignal } from 'solid-js'
+import { Dialog } from './Dialog'
 
 export function AddExpense() {
     const [dialogOpen, setDialogOpen] = createSignal(false)
@@ -10,7 +11,7 @@ export function AddExpense() {
     return (
         <>
             <button onClick={() => setDialogOpen(true)} class={styles.cta}>+</button>
-            <dialog popover open={dialogOpen()}>
+            <Dialog open={dialogOpen()} id="add-expense-dialog" onBackdropClick={() => setDialogOpen(false)}>
                 <article>
                     <form id="add-expense-form" onSubmit={(ev => {
                         ev.preventDefault();
@@ -59,7 +60,7 @@ export function AddExpense() {
                         <button form="add-expense-form">salva</button>
                     </footer>
                 </article>
-            </dialog>
+            </Dialog>
         </>
     )
 }

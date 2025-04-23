@@ -4,6 +4,7 @@ import { SearchParams, YyyyMmDd } from "~/types";
 import { getFormData } from "~/helpers";
 import { format } from "date-fns";
 import { createSignal } from "solid-js";
+import { Dialog } from "./Dialog";
 
 function Button(props: { label: string }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -44,7 +45,7 @@ export default function PeriodSelection() {
       <div class={styles.buttons}>
         {['1s', '1m', '1a'].map(label => <Button label={label} />)}
         <button onClick={() => setDialogOpen(true)}>da/a</button>
-        <dialog id="custom-dates" open={dialogOpen()}>
+        <Dialog id="custom-dates" open={dialogOpen()} onBackdropClick={() => setDialogOpen(false)}>
           <article>
             <form id="set-dates-form" method="dialog" onSubmit={(ev => {
               ev.preventDefault()
@@ -62,11 +63,11 @@ export default function PeriodSelection() {
               </label>
             </form>
             <footer>
-              <button type="button" class="outline secondary" formmethod="dialog" form="set-dates-form" value="cancel">cancel</button>
+              <button class="outline secondary" onClick={() => setDialogOpen(false)}>cancel</button>
               <button form="set-dates-form">salva</button>
             </footer>
           </article>
-        </dialog>
+        </Dialog>
       </div>
       <p>{getLabel(searchParams)}</p>
     </div>

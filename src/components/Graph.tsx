@@ -46,6 +46,13 @@ export default function Graph() {
                         legend: {
                             position: 'top',
                         },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    return `€ ${context.parsed} • ${Math.round(context.parsed / (context.dataset.data.reduce((tot, n) => tot + n)) * 100)}%`;
+                                }
+                            }
+                        }
                     }
                 },
             });
