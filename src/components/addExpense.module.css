@@ -1,0 +1,11 @@
+.cta {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+}
+
+.twoCols {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+}
