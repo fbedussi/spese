@@ -1,39 +1,46 @@
-import { filteredData, filteredDataByCategory } from '../data'
+import { filteredData, limits } from '../data'
 import { createEffect } from "solid-js";
 import { Expense } from "~/types";
-import { CategoryScale, Chart, LinearScale, PieController, LineElement, ArcElement, Legend, Tooltip, Filler, Colors } from 'chart.js';
+import { CategoryScale, Chart, LinearScale, BarController, LineElement, BarElement, Legend, Tooltip, Filler, Colors } from 'chart.js';
 import styles from './graph.module.css'
 
 Chart.register([
     CategoryScale,
-    PieController,
+    BarController,
     LineElement,
     LinearScale,
-    ArcElement,
+    BarElement,
     Legend,
     Tooltip,
     Filler,
     Colors,
 ]);
 
-export default function Graph() {
+export default function LimitGraph() {
     let canvas: HTMLCanvasElement | undefined
     let chart: Chart | undefined
 
     createEffect(() => {
+        const expensesByCategory = filteredData()?.reduce((result, item) => {
+            result[item.category] = (result[item.category] || []).concat(item)
+            return result
+        }, {} as Record<string, Expense[]>) || {}
         if (!canvas) {
             return
         }
-        const labels = Object.keys(filteredDataByCategory());
-        const data = Object.values(filteredDataByCategory()).map(expenses => expenses.reduce((tot, expense) => tot + expense.value, 0))
+        const labels = Object.keys(expensesByCategory);
+        const data = Object.values(expensesByCategory).map(expenses => expenses.reduce((tot, expense) => tot + expense.value, 0))
         if (!chart) {
             chart = new Chart(canvas, {
-                type: 'pie',
+                type: 'bar',
                 data: {
                     labels,
                     datasets: [{
+                        label: "pianificate",
+                        data: Object.values(limits())
+                    }, {
+                        label: "spese",
                         data,
-                        hoverOffset: 4,
                     }]
                 },
                 options: {
@@ -42,13 +49,7 @@ export default function Graph() {
                         legend: {
                             position: 'top',
                         },
-                        tooltip: {
-                            callbacks: {
-                                label: function (context) {
-                                    return `€ ${context.parsed} • ${Math.round(context.parsed / (context.dataset.data.reduce((tot, n) => tot + n)) * 100)}%`;
-                                }
-                            }
-                        }
+
                     }
                 },
             });

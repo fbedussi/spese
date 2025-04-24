@@ -1,0 +1,35 @@
+.sliderContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.slider {
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+.slides {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    position: relative;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+}
+
+.slide {
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    background: white;
+    transform-origin: center center;
+    transform: scale(1);
+    scroll-snap-align: center;
+}
+
+.slideInner {
+    width: 100vw;
+}

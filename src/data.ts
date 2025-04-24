@@ -25,6 +25,11 @@ export const filteredData = () => {
     })
 }
 
+export const filteredDataByCategory = () => filteredData()?.reduce((result, item) => {
+    result[item.category] = (result[item.category] || []).concat(item)
+    return result
+}, {} as Record<string, Expense[]>) || {}
+
 export const getTotal = () => {
     return filteredData().reduce((tot, expense) => tot + expense.value, 0)
 }
@@ -61,3 +66,10 @@ export const addExpense = (formData: { [k: string]: FormDataEntryValue }) => {
 
 const [categories, setCategories] = createSignal(faker.categories)
 const [subCategories, setSubCategories] = createSignal(faker.subcategories)
+
+export const [limits, setLimits] = createSignal({
+    car: 1000,
+    motorbike: 1500,
+    food: 3000,
+    restaurant: 500,
+} as Record<string, number>)

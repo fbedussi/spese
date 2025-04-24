@@ -1,5 +1,4 @@
 header,
-main,
 footer {
     padding: 1rem;
 }
@@ -25,16 +24,14 @@ header {
     }
 }
 
-button.no-style {
-    background-color: transparent;
-    border: none;
-
-    &:hover {
-        background-color: transparent;
-        border: none;
-        box-shadow: none;
-    }
+main {
+    padding-top: 1rem;
 }
+
+.main__wrapper {
+    padding: 0 1rem;
+}
+
 
 [popover] {
     border: none;
@@ -69,12 +66,23 @@ dialog[open],
     transform: translateY(0);
 }
 
+
+.left-panel:popover-open {
+    opacity: 1;
+    transform: translateX(0);
+}
+
 @starting-style {
 
     dialog[open],
     [popover]:popover-open {
         opacity: 0;
         transform: translateY(-1em);
+    }
+
+    .left-panel:popover-open {
+        opacity: 0;
+        transform: translateX(-100%);
     }
 
     dialog[open]::backdrop {
@@ -94,6 +102,6 @@ dialog[open],
     top: 0;
     left: 0;
     bottom: 0;
-    transform: translate(-100%, 0);
     padding: 1rem;
+    transform: translateX(-100%);
 }
