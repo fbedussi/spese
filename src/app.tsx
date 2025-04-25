@@ -5,6 +5,7 @@ import { Suspense } from "solid-js";
 import './style.css'
 
 export default function App() {
+  let panel: HTMLDivElement | undefined
   return (
     <Router
       root={props => (
@@ -21,17 +22,16 @@ export default function App() {
                 <path d="M 5 9 L 5 11 L 45 11 L 45 9 L 5 9 z M 5 24 L 5 26 L 45 26 L 45 24 L 5 24 z M 5 39 L 5 41 L 45 41 L 45 39 L 5 39 z"></path>
               </svg>
             </button>
-            <div popover id="menu" class="left-panel">
+            <div popover id="menu" class="left-panel" ref={panel}>
               <aside>
                 <nav>
                   <ul>
-                    <li><a href="/categorie">Gestisci categorie</a></li>
-                    <li><a href="#">Gestisci limiti</a></li>
-                    <li><a href="#">Controlla limiti</a></li>
+                    <li><a href="/categories" onClick={() => panel?.hidePopover()}>Gestisci categorie</a></li>
+                    <li><a href="#" onClick={() => panel?.hidePopover()}>Gestisci limiti</a></li>
+                    <li><a href="#" onClick={() => panel?.hidePopover()}>Controlla limiti</a></li>
                   </ul>
                 </nav>
               </aside>
-
             </div>
           </header>
           <Suspense>{props.children}</Suspense>
