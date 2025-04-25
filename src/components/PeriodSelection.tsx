@@ -18,7 +18,7 @@ function Button(props: { label: string }) {
 
 function getLabel(searchParams: Partial<SearchParams>) {
   if (searchParams.period === 'c' && searchParams.from && searchParams.to) {
-    const dateFormat = 'ddMMyy'
+    const dateFormat = 'dd/MM/yy'
     return `da ${format(searchParams.from, dateFormat)} a ${format(searchParams.to, dateFormat)}`
   } else if (searchParams.period && searchParams.period !== 'c') {
     const periodLabel = {
