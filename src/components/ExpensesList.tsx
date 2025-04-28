@@ -5,7 +5,7 @@ import { formatMoney } from "~/helpers";
 export function ExpensesList() {
     return (
         <div class="main__wrapper">
-            <table>
+            <table data-testid="expense-list">
                 <thead>
                     <tr>
                         <td>Data</td>

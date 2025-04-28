@@ -10,7 +10,7 @@ export default function App() {
     <Router
       root={props => (
         <MetaProvider>
-          <Title>Spese</Title>
+          <Title>Traccia Spese</Title>
           <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"

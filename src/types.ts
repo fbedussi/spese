@@ -39,4 +39,9 @@ export type Expense = {
     value: number
 }
 
-export type SearchParams = { period: 'c', from: string, to: string }
+export type SearchParams = {
+    period: 'c',
+    from: string,
+    to: string,
+    demo: string
+}

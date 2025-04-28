@@ -4,7 +4,7 @@ import { Expense, SearchParams, YyyyMmDd } from "./types";
 import { subMonths, subWeeks, subYears } from "date-fns";
 import * as faker from './faker';
 
-export const [data, setData] = createSignal(faker.fakeExpenses(50))
+export const [data, setData] = createSignal(window.location.search.includes('demo') ? faker.fakeExpenses(50) : [])
 
 export const filteredData = () => {
     const [searchParams] = useSearchParams<SearchParams>();

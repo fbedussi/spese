@@ -6,7 +6,9 @@
     "check": "npx tsc --noEmit --skipLibCheck",
     "build": "vinxi build",
     "start": "vinxi start",
-    "version": "vinxi version"
+    "version": "vinxi version",
+    "e2e": "npx playwright test",
+    "e2e:ui": "npx playwright test --ui"
   },
   "dependencies": {
     "@solidjs/meta": "^0.29.4",
@@ -19,5 +21,9 @@
   },
   "engines": {
     "node": ">=22"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.2"
   }
 }

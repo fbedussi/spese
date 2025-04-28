@@ -48,7 +48,7 @@ export default function PeriodSelection() {
         <button onClick={() => setDialogOpen(true)}>da/a</button>
         <Dialog id="custom-dates" open={dialogOpen()} onBackdropClick={() => setDialogOpen(false)}>
           <article>
-            <form id="set-dates-form" method="dialog" onSubmit={(ev => {
+            <form id="set-dates-form" data-testid="set-dates-form" method="dialog" onSubmit={(ev => {
               ev.preventDefault()
               const data = getFormData(ev.currentTarget)
               setSearchParams({ period: 'c', from: data.from.toString(), to: data.to.toString() })
@@ -70,7 +70,7 @@ export default function PeriodSelection() {
           </article>
         </Dialog>
       </div>
-      <p>{getLabel(searchParams)}: {formatMoney(getTotal())}</p>
+      <p data-testid="total-for-period">{getLabel(searchParams)}: {formatMoney(getTotal())}</p>
     </div>
   );
 }

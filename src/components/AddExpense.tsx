@@ -10,9 +10,9 @@ export function AddExpense() {
 
     return (
         <>
-            <button onClick={() => setDialogOpen(true)} class={styles.cta}>+</button>
-            <Dialog open={dialogOpen()} id="add-expense-dialog" onBackdropClick={() => setDialogOpen(false)}>
-                <article>
+            <button onClick={() => setDialogOpen(true)} class={styles.cta} aria-label="aggiungi spesa" data-testid="add-expense">+</button>
+            <Dialog open={dialogOpen()} id="add-expense-dialog" onBackdropClick={() => setDialogOpen(false)} >
+                <article data-testid="add-expense-dialog">
                     <form id="add-expense-form" onSubmit={(ev => {
                         ev.preventDefault();
                         const newExpense = getFormData(ev.currentTarget);
@@ -57,7 +57,7 @@ export function AddExpense() {
                     </form>
                     <footer>
                         <button class="outline secondary" onClick={() => setDialogOpen(false)}>cancel</button>
-                        <button form="add-expense-form">salva</button>
+                        <button form="add-expense-form" data-testid="save">salva</button>
                     </footer>
                 </article>
             </Dialog>
