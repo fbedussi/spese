@@ -5,7 +5,7 @@ import { formatMoney, getFormData } from "~/helpers";
 import { format } from "date-fns";
 import { createSignal } from "solid-js";
 import { Dialog } from "./Dialog";
-import { getTotal } from "~/data";
+import { getFilteredDataTotal } from "~/data";
 
 function Button(props: { label: string }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -70,7 +70,7 @@ export default function PeriodSelection() {
           </article>
         </Dialog>
       </div>
-      <p data-testid="total-for-period">{getLabel(searchParams)}: {formatMoney(getTotal())}</p>
+      <p data-testid="total-for-period">{getLabel(searchParams)}: {formatMoney(getFilteredDataTotal())}</p>
     </div>
   );
 }

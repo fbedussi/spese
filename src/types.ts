@@ -1,15 +1,15 @@
 export class YyyyMmDd {
-    val: Date
+    val: string
     constructor(val: Date | string) {
-        this.val = (new Date(val))
+        this.val = (new Date(val)).toISOString().split('T')[0]
     }
 
     get() {
-        return this.val.toISOString().split('T')[0]
+        return this.val
     }
 
     getDate() {
-        return this.val
+        return new Date(this.val)
     }
 
     gte(other?: YyyyMmDd | string) {

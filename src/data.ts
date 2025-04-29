@@ -3,6 +3,7 @@ import { useSearchParams } from "@solidjs/router";
 import { Expense, SearchParams, YyyyMmDd } from "./types";
 import { subMonths, subWeeks, subYears } from "date-fns";
 import * as faker from './faker';
+import { getTotal } from "./helpers";
 
 export const [data, setData] = createSignal(window.location.search.includes('demo') ? faker.fakeExpenses(50) : [])
 
@@ -30,8 +31,8 @@ export const filteredDataByCategory = () => filteredData()?.reduce((result, item
     return result
 }, {} as Record<string, Expense[]>) || {}
 
-export const getTotal = () => {
-    return filteredData().reduce((tot, expense) => tot + expense.value, 0)
+export const getFilteredDataTotal = () => {
+    return getTotal(filteredData())
 }
 
 export const addExpense = (formData: { [k: string]: FormDataEntryValue }) => {
