@@ -2,14 +2,15 @@ import { Expense, YyyyMmDd } from "./types";
 
 const names = ['foo', 'baz', 'bar']
 
-export const categories: (keyof typeof subcategories)[] = ['car', 'motorbike', 'food', 'restaurant']
+export const categories: (keyof typeof subcategories)[] = ['other', 'car', 'motorbike', 'food', 'restaurant']
 
-export const subcategories = {
+export const subcategories: Record<string, string[]> = {
+    other: ['other'],
     car: ['insurance', 'buy', 'tax', 'wheels', 'toll'],
     motorbike: ['insurance', 'buy', 'tax', 'wheels', 'maintenance'],
     food: ['food'],
     restaurant: ['take away pizza', 'bologna js', 'xpug', 'family'],
-} as const
+}
 
 const spans = [1, 12]
 
@@ -24,6 +25,7 @@ function pickRandom<T>(arr: readonly T[]): T {
 export function fakeExpense(): Expense {
     const category = pickRandom(categories)
     return {
+        id: crypto.randomUUID(),
         name: pickRandom(names),
         date: new YyyyMmDd(`2025-${getRandomNumber(4) + 1}-${getRandomNumber(29) + 1}`),
         category,

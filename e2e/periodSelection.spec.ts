@@ -31,8 +31,8 @@ test('the "add an expense" button opens the add an expense dialog', async ({ pag
 test('changing the period filters the list', async ({ page }) => {
   await page.goto('http://localhost:3030/');
 
-  await addExpense(page, 'foo', 1, new YyyyMmDd(new Date()).get())
-  await addExpense(page, 'baz', 2, new YyyyMmDd(subWeeks(new Date(), 2)).get())
+  await addExpense(page, { name: 'foo', value: 1, date: new YyyyMmDd(new Date()) });
+  await addExpense(page, { name: 'baz', value: 2, date: new YyyyMmDd(subWeeks(new Date(), 2)) });
 
   await expect(page.getByTestId('expense-list').getByRole('cell', { name: 'foo' })).toBeVisible();
   await expect(page.getByTestId('expense-list').getByRole('cell', { name: '€1' })).toBeVisible();

@@ -105,3 +105,16 @@ dialog[open],
     padding: 1rem;
     transform: translateX(-100%);
 }
+
+button {
+    svg {
+        width: 1em;
+        height: auto;
+    }
+}
+
+.twoCols {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+}

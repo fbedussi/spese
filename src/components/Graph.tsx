@@ -26,37 +26,39 @@ export default function Graph() {
         }
         const labels = Object.keys(filteredDataByCategory());
         const data = Object.values(filteredDataByCategory()).map(expenses => expenses.reduce((tot, expense) => tot + expense.value, 0))
-        if (!chart) {
-            chart = new Chart(canvas, {
-                type: 'pie',
-                data: {
-                    labels,
-                    datasets: [{
-                        data,
-                        hoverOffset: 4,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function (context) {
-                                    return `€ ${context.parsed} • ${Math.round(context.parsed / (context.dataset.data.reduce((tot, n) => tot + n)) * 100)}%`;
-                                }
+        if (chart) {
+            chart.destroy()
+        }
+        chart = new Chart(canvas, {
+            type: 'pie',
+            data: {
+                labels,
+                datasets: [{
+                    data,
+                    hoverOffset: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `€ ${context.parsed} • ${Math.round(context.parsed / (context.dataset.data.reduce((tot, n) => tot + n)) * 100)}%`;
                             }
                         }
                     }
-                },
-            });
-        } else {
-            chart.data.datasets[0].data = data
-            chart.data.labels = labels
-            chart.update()
-        }
+                }
+            },
+        });
+        // } else {
+        //     chart.data.datasets[0].data = data
+        //     chart.data.labels = labels
+        //     chart.update()
+        // }
     })
     return (
         <div class="main__wrapper">

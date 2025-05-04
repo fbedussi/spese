@@ -30,6 +30,7 @@ export class YyyyMmDd {
 }
 
 export type Expense = {
+    id: string
     name: string
     date: YyyyMmDd
     category: string

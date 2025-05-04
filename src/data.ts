@@ -26,6 +26,14 @@ export const filteredData = () => {
     })
 }
 
+export const updateExpense = (expenseToUpdate: Expense) => {
+    setData(data().map(expense => expense.id === expenseToUpdate.id ? expenseToUpdate : expense))
+}
+
+export const delExpense = (id: string) => {
+    setData(data().filter(expense => expense.id !== id))
+}
+
 export const filteredDataByCategory = () => filteredData()?.reduce((result, item) => {
     result[item.category] = (result[item.category] || []).concat(item)
     return result
@@ -65,8 +73,8 @@ export const addExpense = (formData: { [k: string]: FormDataEntryValue }) => {
     setData(data().concat(newExpense))
 }
 
-const [categories, setCategories] = createSignal(faker.categories)
-const [subCategories, setSubCategories] = createSignal(faker.subcategories)
+export const [categories, setCategories] = createSignal(faker.categories)
+export const [subCategories, setSubCategories] = createSignal(faker.subcategories)
 
 export const [limits, setLimits] = createSignal({
     car: 1000,
