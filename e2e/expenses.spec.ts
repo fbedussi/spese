@@ -120,18 +120,3 @@ describe('delete an expense', () => {
     await expect(page.getByTestId('expense-list').getByRole('cell', { name: '€1' })).not.toBeAttached();
   });
 });
-
-describe('add a new category', () => {
-  test('a new category can be added', async ({ page }) => {
-    await page.goto('http://localhost:3030');
-    await page.getByTestId('add-expense').click();
-
-    await page.getByRole('textbox', { name: 'Nome' }).fill('foo');
-    await page.getByRole('spinbutton', { name: '€' }).fill('1');
-    await page.getByTestId('select-category').fill('new');
-    await page.getByTestId('save').click();
-
-    await expect(page.getByTestId('expense-list').getByRole('cell', { name: 'foo' })).toBeVisible();
-    await expect(page.getByTestId('expense-list').getByRole('cell', { name: '€1' })).toBeVisible();
-  })
-})

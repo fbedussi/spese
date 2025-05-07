@@ -6,6 +6,7 @@ import { createSignal } from 'solid-js'
 import { Dialog } from './Dialog'
 import { SelectCategory } from './SelectCategory'
 import { SelectSubCategory } from './SelectSubCategory'
+import { PlusIcon } from './PlusIcon'
 
 export function AddExpense() {
     const [dialogOpen, setDialogOpen] = createSignal(false)
@@ -15,7 +16,9 @@ export function AddExpense() {
 
     return (
         <>
-            <button onClick={() => setDialogOpen(true)} class={styles.cta} aria-label="aggiungi spesa" data-testid="add-expense">+</button>
+            <button onClick={() => setDialogOpen(true)} class={styles.cta} aria-label="aggiungi spesa" data-testid="add-expense">
+                <PlusIcon />
+            </button>
             <Dialog open={dialogOpen()} id="add-expense-dialog" onBackdropClick={() => setDialogOpen(false)} >
                 <article data-testid="add-expense-dialog">
                     <form ref={form} id="add-expense-form" data-testid="add-expense-form" onSubmit={(ev => {
@@ -47,6 +50,9 @@ export function AddExpense() {
                         <div class="twoCols">
                             <SelectCategory onSelect={setSelectedCategory} />
                             <SelectSubCategory selectedCategory={selectedCategory()} />
+                        </div>
+                        <div class="twoCols">
+                            <a href="/categories">Gestisci categorie</a>
                         </div>
                     </form>
                     <footer>

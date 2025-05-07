@@ -106,15 +106,24 @@ dialog[open],
     transform: translateX(-100%);
 }
 
-button {
-    svg {
-        width: 1em;
-        height: auto;
-    }
+svg {
+    width: 1em;
+    height: auto;
+    fill: currentColor;
 }
 
 .twoCols {
     display: grid;
     gap: 1rem;
     grid-template-columns: 1fr 1fr;
+}
+
+button.no-border {
+    border: none;
+}
+
+button.small {
+    --pico-form-element-spacing-vertical: 0.25rem;
+    --pico-form-element-spacing-horizontal: 0.5rem;
+    font-size: 0.75rem;
 }

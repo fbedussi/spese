@@ -76,6 +76,13 @@ export const addExpense = (formData: { [k: string]: FormDataEntryValue }) => {
 export const [categories, setCategories] = createSignal(faker.categories)
 export const [subCategories, setSubCategories] = createSignal(faker.subcategories)
 
+export const deleteSubcategory = ({ category, subcategory }: { category: string, subcategory: string }) => {
+    setSubCategories({
+        ...subCategories(),
+        [category]: subCategories()[category].filter(sc => sc !== subcategory)
+    })
+}
+
 export const [limits, setLimits] = createSignal({
     car: 1000,
     motorbike: 1500,
