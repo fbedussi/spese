@@ -6,6 +6,8 @@ import styles from './categories.module.css'
 import { createSignal, Show } from "solid-js";
 import { PlusIcon } from "~/components/PlusIcon";
 import { AddNewSubcategory } from "~/components/AddNewSubcategory";
+import { CheckIcon } from "~/components/CheckIcon";
+import { SubcategoryItem } from "~/components/SubcategoryItem";
 
 export default function About() {
   const [addNewSubcategoryToCategory, setAddNewSubcategoryToCategory] = createSignal('')
@@ -29,28 +31,10 @@ export default function About() {
               <td>{category}</td>
               <td>
 
-                {subCategories()[category].map(subcategory => (
+                {subCategories()[category].map((subcategory, index) => (
                   <label class={styles.subcategory}>
                     <input type="radio" name="subcategory" onClick={() => setAddNewSubcategoryToCategory('')} />
-                    <span>
-                      <span>
-                        {subcategory}
-                      </span>
-                      <input type="text" value={subcategory} />
-                      <button
-                        aria-label={`salva sottocategoria ${subcategory}`}
-                        onClick={() => deleteSubcategory({ category, subcategory })}
-                      >
-                        <DeleteIcon />
-                      </button>
-                      <button
-                        class="outline"
-                        aria-label={`cancella sottocategoria ${subcategory}`}
-                        onClick={() => deleteSubcategory({ category, subcategory })}
-                      >
-                        <DeleteIcon />
-                      </button>
-                    </span>
+                    <SubcategoryItem category={category} subcategory={subcategory} index={index}/>
                   </label>
                 ))}
 

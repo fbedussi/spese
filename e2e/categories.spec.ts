@@ -42,7 +42,9 @@ describe('Manage categories page', () => {
 
     await expect(page.getByTestId('home-page')).toBeAttached();
   })
+})
 
+describe('subcategories', () => {
   test('a subcategory can be deleted', async ({ page }) => {
     await page.goto('http://localhost:3030/categories');
 
@@ -55,10 +57,18 @@ describe('Manage categories page', () => {
   test('a subcategory can be added', async ({ page }) => {
     await page.goto('http://localhost:3030/categories');
 
-    await expect(page.getByText('xpug')).toBeVisible();
     await page.getByTestId('add-subcategory-btn').first().click();
     await page.getByTestId('add-subcategory-input').first().fill('new subcategory');
     await page.getByTestId('add-subcategory-btn').first().click();
     await expect(page.getByText('new subcategory')).toBeVisible();
+  })
+
+  test('a subcategory can be modified', async ({ page }) => {
+    await page.goto('http://localhost:3030/categories');
+
+    await page.getByText('xpug').click();
+    await page.getByTestId('subcategory-xpug').getByTestId('subcategory-edit-input').fill('xpug2');
+    await page.getByTestId('subcategory-xpug').getByRole('button', { name: 'salva sottocategoria xpug' }).click();
+    await expect(page.getByText('xpug2')).toBeVisible();
   })
 })
