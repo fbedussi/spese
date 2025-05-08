@@ -1,4 +1,4 @@
-import { deleteSubcategory, setSubCategories, subCategories } from "~/data";
+import { deleteSubcategory, editSubcategory, setSubCategories, subCategories } from "~/data";
 import { DeleteIcon } from "./DeleteIcon";
 import { CheckIcon } from "./CheckIcon";
 
@@ -13,10 +13,7 @@ export function SubcategoryItem(props: { category: string, subcategory: string, 
             <input type="text" value={props.subcategory} ref={inputRef} data-testid="subcategory-edit-input" />
             <button
                 aria-label={`salva sottocategoria ${props.subcategory}`}
-                onClick={() => inputRef?.value && setSubCategories({
-                    ...subCategories(),
-                    [props.category]: subCategories()[props.category].map((subcategory, index) => index === props.index ? inputRef.value : subcategory)
-                })}
+                onClick={() => inputRef?.value && editSubcategory({ category: props.category, updatedSubcategory: inputRef.value, index: props.index })}
             >
                 <CheckIcon />
             </button>

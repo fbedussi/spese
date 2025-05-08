@@ -83,6 +83,13 @@ export const deleteSubcategory = ({ category, subcategory }: { category: string,
     })
 }
 
+export const editSubcategory = (props: { category: string, updatedSubcategory: string, index: number }) => {
+    setSubCategories({
+        ...subCategories(),
+        [props.category]: subCategories()[props.category].map((subcategory, index) => index === props.index ? props.updatedSubcategory : subcategory)
+    })
+}
+
 export const [limits, setLimits] = createSignal({
     car: 1000,
     motorbike: 1500,
