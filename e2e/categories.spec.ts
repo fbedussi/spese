@@ -72,3 +72,13 @@ describe('subcategories', () => {
     await expect(page.getByText('xpug2')).toBeVisible();
   })
 })
+
+describe('categories', () => {
+  test('a category can be added', async ({ page }) => {
+    await page.goto('http://localhost:3030/categories');
+
+    await page.getByTestId('add-category-input').first().fill('new category');
+    await page.getByTestId('add-category-btn').first().click();
+    await expect(page.getByText('new category')).toBeVisible();
+  })
+})

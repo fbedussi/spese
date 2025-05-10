@@ -1,10 +1,11 @@
 import { Title } from "@solidjs/meta";
-import { categories, setSubCategories, subCategories } from "~/data";
+import { addCategory, addSubcategory, categories, setSubCategories, subCategories } from "~/data";
 
 import styles from './categories.module.css'
 import { createSignal } from "solid-js";
 import { AddNewSubcategory } from "~/components/AddNewSubcategory";
 import { SubcategoryItem } from "~/components/SubcategoryItem";
+import { AddNewCategory } from "~/components/AddNewCategory";
 
 export default function About() {
   const [addNewSubcategoryToCategory, setAddNewSubcategoryToCategory] = createSignal('')
@@ -25,10 +26,12 @@ export default function About() {
         <tbody>
           {categories().map(category => (
             <tr>
-              <td>{category}</td>
+              <td>
+                {category}
+              </td>
               <td>
 
-                {subCategories()[category].map((subcategory, index) => (
+                {subCategories()[category]?.map((subcategory, index) => (
                   <label class={styles.subcategory}>
                     <input type="radio" name="subcategory" onClick={() => setAddNewSubcategoryToCategory('')} />
                     <SubcategoryItem category={category} subcategory={subcategory} index={index} />
@@ -38,19 +41,17 @@ export default function About() {
                 <AddNewSubcategory
                   showForm={addNewSubcategoryToCategory() === category}
                   setShowForm={() => setAddNewSubcategoryToCategory(category)}
-                  addSubcategory={(newSubcategory) => {
-                    setSubCategories({
-                      ...subCategories(),
-                      [category]: subCategories()[category].concat(newSubcategory)
-                    })
-                  }}
+                  addSubcategory={(newSubcategory) => addSubcategory(category, newSubcategory)}
                 />
               </td>
             </tr>
           ))}
-
+          <tr>
+            <td colSpan={2}>
+              <AddNewCategory addCategory={(newCategory) => addCategory(newCategory)} />
+            </td>
+          </tr>
         </tbody>
-
       </table>
     </main>
   );

@@ -1,5 +1,3 @@
-import { Match, Switch } from 'solid-js';
-import { PlusIcon } from "~/components/PlusIcon";
 import styles from './addNewSubcategory.module.css';
 
 export function AddNewSubcategory(props: { showForm: boolean, setShowForm: () => void, addSubcategory: (subcategory: string) => void }) {

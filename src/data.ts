@@ -90,6 +90,26 @@ export const editSubcategory = (props: { category: string, updatedSubcategory: s
     })
 }
 
+export const addCategory = (newCategory: string) => {
+    if (!categories().includes(newCategory)) {
+        setCategories(categories().concat(newCategory))
+
+        setSubCategories({
+            ...subCategories(),
+            [newCategory]: []
+        })
+    }
+}
+
+export const addSubcategory = (category: string, newSubcategory: string) => {
+    if (subCategories()[category] && !subCategories()[category].includes(newSubcategory)) {
+        setSubCategories({
+            ...subCategories(),
+            [category]: subCategories()[category].concat(newSubcategory)
+        })
+    }
+}
+
 export const [limits, setLimits] = createSignal({
     car: 1000,
     motorbike: 1500,
