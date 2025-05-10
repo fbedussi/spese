@@ -1,6 +1,6 @@
 import { useSearchParams } from '@solidjs/router';
 import styles from './PeriodSelection.module.css';
-import { SearchParams, YyyyMmDd } from '~/types';
+import { type SearchParams, YyyyMmDd } from '~/types';
 import { formatMoney, getFormData } from '~/helpers';
 import { format } from 'date-fns';
 import { createSignal } from 'solid-js';
@@ -11,6 +11,7 @@ function Button(props: { label: string }) {
   const [searchParams, setSearchParams] = useSearchParams();
   return (
     <button
+      type="button"
       aria-current={searchParams.period === props.label}
       onClick={() => {
         setSearchParams({
@@ -29,7 +30,9 @@ function getLabel(searchParams: Partial<SearchParams>) {
   if (searchParams.period === 'c' && searchParams.from && searchParams.to) {
     const dateFormat = 'dd/MM/yy';
     return `da ${format(searchParams.from, dateFormat)} a ${format(searchParams.to, dateFormat)}`;
-  } else if (searchParams.period && searchParams.period !== 'c') {
+  }
+
+  if (searchParams.period && searchParams.period !== 'c') {
     const periodLabel = {
       '1s': 'ultima settimana',
       '1m': 'ultimo mese',
@@ -56,7 +59,7 @@ export default function PeriodSelection() {
         {['1s', '1m', '1a'].map((label) => (
           <Button label={label} />
         ))}
-        <button onClick={() => setDialogOpen(true)}>da/a</button>
+        <button type="button" onClick={() => setDialogOpen(true)}>da/a</button>
         <Dialog
           id="custom-dates"
           open={dialogOpen()}
@@ -94,12 +97,14 @@ export default function PeriodSelection() {
             </form>
             <footer>
               <button
+                type="reset"
+                form="set-dates-form"
                 class="outline secondary"
                 onClick={() => setDialogOpen(false)}
               >
                 cancel
               </button>
-              <button form="set-dates-form">salva</button>
+              <button type="submit" form="set-dates-form">salva</button>
             </footer>
           </article>
         </Dialog>

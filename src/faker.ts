@@ -1,4 +1,4 @@
-import { Expense, YyyyMmDd } from './types';
+import { type Expense, YyyyMmDd } from './types';
 
 const names = ['foo', 'baz', 'bar'];
 

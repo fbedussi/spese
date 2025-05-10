@@ -1,4 +1,10 @@
 // @refresh reload
 import { mount, StartClient } from '@solidjs/start/client';
 
-mount(() => <StartClient />, document.getElementById('app')!);
+const mountingPoint = document.getElementById('app')
+
+if (!mountingPoint) {
+    throw new Error('No mounting point')
+}
+
+mount(() => <StartClient />, mountingPoint);

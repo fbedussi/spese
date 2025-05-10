@@ -21,13 +21,13 @@ export default function About() {
     <main class={styles.main}>
       <Title>Categorie</Title>
       <h1>
-        <a href="/" aria-label="home">
+        <a href="/" aria-label="back to home">
           <svg
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1phnduy"
             aria-hidden="true"
             viewBox="0 0 24 24"
           >
-            <path d="M17.77 3.77 16 2 6 12l10 10 1.77-1.77L9.54 12z"></path>
+            <title>back to home</title>
+            <path d="M17.77 3.77 16 2 6 12l10 10 1.77-1.77L9.54 12z" />
           </svg>
         </a>
         Categorie

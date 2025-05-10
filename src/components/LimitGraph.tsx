@@ -1,6 +1,6 @@
 import { filteredData, limits } from '../data';
 import { createEffect } from 'solid-js';
-import { Expense } from '~/types';
+import type { Expense } from '~/types';
 import {
   CategoryScale,
   Chart,
@@ -80,7 +80,7 @@ export default function LimitGraph() {
   });
   return (
     <div class="main__wrapper">
-      <canvas class={styles.canvas} ref={canvas}></canvas>
+      <canvas class={styles.canvas} ref={canvas} />
     </div>
   );
 }

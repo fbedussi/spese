@@ -4,7 +4,7 @@ import { formatMoney, getFormData } from '~/helpers';
 import { EditIcon } from './EditIcon';
 import { Dialog } from './Dialog';
 import { createSignal, Show } from 'solid-js';
-import { Expense, YyyyMmDd } from '~/types';
+import { type Expense, YyyyMmDd } from '~/types';
 import { SelectCategory } from './SelectCategory';
 import { SelectSubCategory } from './SelectSubCategory';
 import { DeleteIcon } from './DeleteIcon';
@@ -21,7 +21,7 @@ export function ExpensesList() {
             <td>Data</td>
             <td>Nome</td>
             <td>Importo</td>
-            <td></td>
+            <td />
           </tr>
         </thead>
         <tbody>
@@ -34,6 +34,7 @@ export function ExpensesList() {
                 <td>{formatMoney(expense.value)}</td>
                 <td>
                   <button
+                    type="button"
                     aria-label="modifica spesa"
                     data-testid="edit-expense-btn"
                     class="outline"
@@ -141,6 +142,7 @@ export function ExpensesList() {
               </form>
               <footer style="display: flex; justify-content: space-between">
                 <button
+                  type="button"
                   class="outline"
                   data-testid="del-expense-btn"
                   onClick={() => {
@@ -152,12 +154,17 @@ export function ExpensesList() {
                 </button>
                 <div style="display: flex; gap: 1rem">
                   <button
+                    type="button"
                     class="outline secondary"
                     onClick={() => setExpenseToEdit(null)}
                   >
                     cancel
                   </button>
-                  <button form="edit-expense-form" data-testid="save">
+                  <button
+                    type="button"
+                    form="edit-expense-form"
+                    data-testid="save"
+                  >
                     salva
                   </button>
                 </div>

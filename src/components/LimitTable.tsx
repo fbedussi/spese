@@ -62,7 +62,7 @@ export function LimitTable() {
                 id="set-limit"
                 value={limits()[limitToEdit()]}
               />
-              <button form="set-limit-form">salva</button>
+              <button type="submit" form="set-limit-form">salva</button>
             </fieldset>
           </form>
         </article>

@@ -1,4 +1,4 @@
-import { createEffect, JSXElement } from 'solid-js';
+import { createEffect, type JSXElement } from 'solid-js';
 
 export function Dialog(props: {
   children: JSXElement;

@@ -19,7 +19,16 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"a11y": {
+				"noRedundantRoles": "off",
+				"useKeyWithClickEvents": "off",
+				"useSemanticElements": "off",
+				"useAnchorContent": "off"
+			},
+			"correctness": {
+				"useJsxKeyInIterable": "off"
+			}
 		}
 	},
 	"javascript": {

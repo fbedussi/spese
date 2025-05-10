@@ -1,4 +1,4 @@
-import { JSX } from 'solid-js';
+import type { JSX } from 'solid-js';
 import styles from './slider.module.css';
 
 export function Slider(props: { children: JSX.Element[] }) {

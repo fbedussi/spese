@@ -24,6 +24,7 @@ export function SubcategoryItem(props: {
         data-testid="subcategory-edit-input"
       />
       <button
+        type="button"
         aria-label={`salva sottocategoria ${props.subcategory}`}
         onClick={() =>
           inputRef?.value &&
@@ -37,6 +38,7 @@ export function SubcategoryItem(props: {
         <CheckIcon />
       </button>
       <button
+        type="button"
         class="outline"
         aria-label={`cancella sottocategoria ${props.subcategory}`}
         onClick={() => deleteSubcategory(props)}

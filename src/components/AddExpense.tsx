@@ -17,6 +17,7 @@ export function AddExpense() {
   return (
     <>
       <button
+        type="button"
         onClick={() => setDialogOpen(true)}
         class={styles.cta}
         aria-label="aggiungi spesa"
@@ -40,6 +41,7 @@ export function AddExpense() {
               addExpense(newExpense);
               setDialogOpen(false);
               form?.reset();
+              // biome-ignore lint: to fix
               (form!.elements['date' as any] as HTMLInputElement).value =
                 new YyyyMmDd(new Date()).get();
             }}
@@ -77,12 +79,13 @@ export function AddExpense() {
           </form>
           <footer>
             <button
+              type="button"
               class="outline secondary"
               onClick={() => setDialogOpen(false)}
             >
               cancel
             </button>
-            <button form="add-expense-form" data-testid="save">
+            <button type="submit" form="add-expense-form" data-testid="save">
               salva
             </button>
           </footer>

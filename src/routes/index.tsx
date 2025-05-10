@@ -9,7 +9,7 @@ import { Slider } from '~/components/Slider';
 export default function Home() {
   return (
     <main data-testid="home-page">
-      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js" />
 
       <PeriodSelection />
       <Slider>

@@ -61,9 +61,7 @@ export default function Graph() {
           },
           tooltip: {
             callbacks: {
-              label: function (context) {
-                return `€ ${context.parsed} • ${Math.round((context.parsed / context.dataset.data.reduce((tot, n) => tot + n)) * 100)}%`;
-              },
+              label: (context) => `€ ${context.parsed} • ${Math.round((context.parsed / context.dataset.data.reduce((tot, n) => tot + n)) * 100)}%`,
             },
           },
         },
@@ -77,7 +75,7 @@ export default function Graph() {
   });
   return (
     <div class="main__wrapper">
-      <canvas class={styles.canvas} ref={canvas}></canvas>
+      <canvas class={styles.canvas} ref={canvas} />
     </div>
   );
 }
