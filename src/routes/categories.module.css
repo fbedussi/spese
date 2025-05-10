@@ -1,42 +1,42 @@
 .main {
-    padding: 1rem;
+  padding: 1rem;
 }
 
 .subcategory {
+  display: flex;
+  width: 100% !important;
+  align-items: center;
+
+  > span {
     display: flex;
-    width: 100% !important;
-    align-items: center;
+    flex: 1;
+    gap: 1rem;
+    justify-content: space-between;
 
-    >span {
-        display: flex;
-        flex: 1;
-        gap: 1rem;
-        justify-content: space-between;
-
-        input {
-            display: none;
-            margin-bottom: 0;
-            flex: 1;
-        }
-
-        button {
-            visibility: hidden;
-            height: 0;
-        }
+    input {
+      display: none;
+      margin-bottom: 0;
+      flex: 1;
     }
 
-    input:checked+span {
-        span {
-            display: none;
-        }
-
-        input {
-            display: block;
-        }
-
-        button {
-            height: auto;
-            visibility: visible;
-        }
+    button {
+      visibility: hidden;
+      height: 0;
     }
+  }
+
+  input:checked + span {
+    span {
+      display: none;
+    }
+
+    input {
+      display: block;
+    }
+
+    button {
+      height: auto;
+      visibility: visible;
+    }
+  }
 }

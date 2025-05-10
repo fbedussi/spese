@@ -1,14 +1,14 @@
-import { MetaProvider, Title } from "@solidjs/meta";
-import { Router } from "@solidjs/router";
-import { FileRoutes } from "@solidjs/start/router";
-import { Suspense } from "solid-js";
-import './style.css'
+import { MetaProvider, Title } from '@solidjs/meta';
+import { Router } from '@solidjs/router';
+import { FileRoutes } from '@solidjs/start/router';
+import { Suspense } from 'solid-js';
+import './style.css';
 
 export default function App() {
-  let panel: HTMLDivElement | undefined
+  let panel: HTMLDivElement | undefined;
   return (
     <Router
-      root={props => (
+      root={(props) => (
         <MetaProvider>
           <Title>Traccia Spese</Title>
           <link
@@ -26,9 +26,24 @@ export default function App() {
               <aside>
                 <nav>
                   <ul>
-                    <li><a href="/categories" onClick={() => panel?.hidePopover()}>Gestisci categorie</a></li>
-                    <li><a href="#" onClick={() => panel?.hidePopover()}>Gestisci limiti</a></li>
-                    <li><a href="#" onClick={() => panel?.hidePopover()}>Controlla limiti</a></li>
+                    <li>
+                      <a
+                        href="/categories"
+                        onClick={() => panel?.hidePopover()}
+                      >
+                        Gestisci categorie
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" onClick={() => panel?.hidePopover()}>
+                        Gestisci limiti
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" onClick={() => panel?.hidePopover()}>
+                        Controlla limiti
+                      </a>
+                    </li>
                   </ul>
                 </nav>
               </aside>

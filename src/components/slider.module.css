@@ -1,23 +1,23 @@
 .slider {
-    width: 100%;
-    position: relative;
+  width: 100%;
+  position: relative;
 }
 
 .slides {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: scroll;
-    position: relative;
-    scroll-snap-type: x mandatory;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+  position: relative;
+  scroll-snap-type: x mandatory;
 }
 
 .slide {
-    display: inline-block;
-    width: 100%;
-    background: white;
-    scroll-snap-align: center;
+  display: inline-block;
+  width: 100%;
+  background: white;
+  scroll-snap-align: center;
 }
 
 .slideInner {
-    width: 100vw;
+  width: 100vw;
 }

@@ -1,21 +1,37 @@
-import { Title } from "@solidjs/meta";
-import { addCategory, addSubcategory, categories, setSubCategories, subCategories } from "~/data";
+import { Title } from '@solidjs/meta';
+import {
+  addCategory,
+  addSubcategory,
+  categories,
+  setSubCategories,
+  subCategories,
+} from '~/data';
 
-import styles from './categories.module.css'
-import { createSignal } from "solid-js";
-import { AddNewSubcategory } from "~/components/AddNewSubcategory";
-import { SubcategoryItem } from "~/components/SubcategoryItem";
-import { AddNewCategory } from "~/components/AddNewCategory";
+import styles from './categories.module.css';
+import { createSignal } from 'solid-js';
+import { AddNewSubcategory } from '~/components/AddNewSubcategory';
+import { SubcategoryItem } from '~/components/SubcategoryItem';
+import { AddNewCategory } from '~/components/AddNewCategory';
 
 export default function About() {
-  const [addNewSubcategoryToCategory, setAddNewSubcategoryToCategory] = createSignal('')
+  const [addNewSubcategoryToCategory, setAddNewSubcategoryToCategory] =
+    createSignal('');
 
   return (
     <main class={styles.main}>
       <Title>Categorie</Title>
-      <h1><a href="/" aria-label="home" >
-        <svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1phnduy" aria-hidden="true" viewBox="0 0 24 24"><path d="M17.77 3.77 16 2 6 12l10 10 1.77-1.77L9.54 12z"></path></svg>
-      </a>Categorie</h1>
+      <h1>
+        <a href="/" aria-label="home">
+          <svg
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1phnduy"
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+          >
+            <path d="M17.77 3.77 16 2 6 12l10 10 1.77-1.77L9.54 12z"></path>
+          </svg>
+        </a>
+        Categorie
+      </h1>
       <table>
         <thead>
           <tr>
@@ -24,31 +40,40 @@ export default function About() {
           </tr>
         </thead>
         <tbody>
-          {categories().map(category => (
+          {categories().map((category) => (
             <tr>
+              <td>{category}</td>
               <td>
-                {category}
-              </td>
-              <td>
-
                 {subCategories()[category]?.map((subcategory, index) => (
                   <label class={styles.subcategory}>
-                    <input type="radio" name="subcategory" onClick={() => setAddNewSubcategoryToCategory('')} />
-                    <SubcategoryItem category={category} subcategory={subcategory} index={index} />
+                    <input
+                      type="radio"
+                      name="subcategory"
+                      onClick={() => setAddNewSubcategoryToCategory('')}
+                    />
+                    <SubcategoryItem
+                      category={category}
+                      subcategory={subcategory}
+                      index={index}
+                    />
                   </label>
                 ))}
 
                 <AddNewSubcategory
                   showForm={addNewSubcategoryToCategory() === category}
                   setShowForm={() => setAddNewSubcategoryToCategory(category)}
-                  addSubcategory={(newSubcategory) => addSubcategory(category, newSubcategory)}
+                  addSubcategory={(newSubcategory) =>
+                    addSubcategory(category, newSubcategory)
+                  }
                 />
               </td>
             </tr>
           ))}
           <tr>
             <td colSpan={2}>
-              <AddNewCategory addCategory={(newCategory) => addCategory(newCategory)} />
+              <AddNewCategory
+                addCategory={(newCategory) => addCategory(newCategory)}
+              />
             </td>
           </tr>
         </tbody>

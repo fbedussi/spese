@@ -1,10 +1,10 @@
-import { AddExpense } from "~/components/AddExpense";
-import { ExpensesList } from "~/components/ExpensesList";
-import Graph from "~/components/Graph";
-import LimitGraph from "~/components/LimitGraph";
-import { LimitTable } from "~/components/LimitTable";
-import PeriodSelection from "~/components/PeriodSelection";
-import { Slider } from "~/components/Slider";
+import { AddExpense } from '~/components/AddExpense';
+import { ExpensesList } from '~/components/ExpensesList';
+import Graph from '~/components/Graph';
+import LimitGraph from '~/components/LimitGraph';
+import { LimitTable } from '~/components/LimitTable';
+import PeriodSelection from '~/components/PeriodSelection';
+import { Slider } from '~/components/Slider';
 
 export default function Home() {
   return (

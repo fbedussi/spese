@@ -1,129 +1,127 @@
 header,
 footer {
-    padding: 1rem;
+  padding: 1rem;
 }
 
 header {
-    background-color: var(--pico-primary-background);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  background-color: var(--pico-primary-background);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-    --pico-contrast-hover: white;
-    --pico-contrast: white;
+  --pico-contrast-hover: white;
+  --pico-contrast: white;
 
-    button svg {
-        width: 1.5rem;
-        height: 1.5rem;
-    }
+  button svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 
-    h1 {
-        color: white;
-        font-size: 1.25rem;
-        margin: 0;
-    }
+  h1 {
+    color: white;
+    font-size: 1.25rem;
+    margin: 0;
+  }
 }
 
 main {
-    padding-top: 1rem;
+  padding-top: 1rem;
 }
 
 .main__wrapper {
-    padding: 0 1rem;
+  padding: 0 1rem;
 }
 
-
 [popover] {
-    border: none;
-    background: transparent;
+  border: none;
+  background: transparent;
 }
 
 dialog,
 [popover] {
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out,
-        overlay 0.5s ease-in-out allow-discrete,
-        display 0.5s ease-in-out allow-discrete;
+  transition:
+    opacity 0.5s ease-in-out, transform 0.5s ease-in-out,
+    overlay 0.5s ease-in-out allow-discrete,
+    display 0.5s ease-in-out allow-discrete;
 
-    opacity: 0;
-    transform: translateY(1em);
+  opacity: 0;
+  transform: translateY(1em);
 }
 
 dialog {
-    &::backdrop {
-        transition: display 0.5s allow-discrete, overlay 0.5s allow-discrete,
-            background-color 0.5s;
-        background-color: hsl(0 0 0 / 0);
-    }
+  &::backdrop {
+    transition: display 0.5s allow-discrete, overlay 0.5s allow-discrete,
+      background-color 0.5s;
+    background-color: hsl(0 0 0 / 0);
+  }
 
-    &[open]::backdrop {
-        background-color: hsl(0 0 0 / 50%);
-    }
+  &[open]::backdrop {
+    background-color: hsl(0 0 0 / 50%);
+  }
 }
 
 dialog[open],
 [popover]:popover-open {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 
-
 .left-panel:popover-open {
-    opacity: 1;
-    transform: translateX(0);
+  opacity: 1;
+  transform: translateX(0);
 }
 
 @starting-style {
+  dialog[open],
+  [popover]:popover-open {
+    opacity: 0;
+    transform: translateY(-1em);
+  }
 
-    dialog[open],
-    [popover]:popover-open {
-        opacity: 0;
-        transform: translateY(-1em);
-    }
+  .left-panel:popover-open {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
 
-    .left-panel:popover-open {
-        opacity: 0;
-        transform: translateX(-100%);
-    }
+  dialog[open]::backdrop {
+    background-color: hsl(0 0 0 / 0);
+  }
 
-    dialog[open]::backdrop {
-        background-color: hsl(0 0 0 / 0);
-    }
-
-    .left-panel:popover-open {
-        transform: translate(-100%, 0);
-    }
+  .left-panel:popover-open {
+    transform: translate(-100%, 0);
+  }
 }
 
 .left-panel {
-    width: max(90%, 20rem);
-    height: 100%;
-    margin: 0;
-    background-color: var(--pico-background-color);
-    top: 0;
-    left: 0;
-    bottom: 0;
-    padding: 1rem;
-    transform: translateX(-100%);
+  width: max(90%, 20rem);
+  height: 100%;
+  margin: 0;
+  background-color: var(--pico-background-color);
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: 1rem;
+  transform: translateX(-100%);
 }
 
 svg {
-    width: 1em;
-    height: auto;
-    fill: currentColor;
+  width: 1em;
+  height: auto;
+  fill: currentColor;
 }
 
 .twoCols {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: 1fr 1fr;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr;
 }
 
 button.no-border {
-    border: none;
+  border: none;
 }
 
 button.small {
-    --pico-form-element-spacing-vertical: 0.25rem;
-    --pico-form-element-spacing-horizontal: 0.5rem;
-    font-size: 0.75rem;
+  --pico-form-element-spacing-vertical: 0.25rem;
+  --pico-form-element-spacing-horizontal: 0.5rem;
+  font-size: 0.75rem;
 }
