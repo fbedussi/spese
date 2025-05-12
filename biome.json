@@ -28,6 +28,9 @@
 			},
 			"correctness": {
 				"useJsxKeyInIterable": "off"
+			},
+			"complexity": {
+				"noForEach": "off"
 			}
 		}
 	},
