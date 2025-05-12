@@ -1,3 +1,14 @@
+html,
+body,
+#app {
+  height: 100%;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+}
+
 header,
 footer {
   padding: 1rem;
@@ -24,8 +35,12 @@ header {
   }
 }
 
-main {
+.home {
   padding-top: 1rem;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .main__wrapper {

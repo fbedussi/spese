@@ -1,12 +1,12 @@
-import { YyyyMmDd } from '~/types';
-import styles from './addExpense.module.css';
+import { createSignal } from 'solid-js';
 import { addExpense } from '~/data';
 import { getFormData } from '~/helpers';
-import { createSignal } from 'solid-js';
+import { YyyyMmDd } from '~/types';
 import { Dialog } from './Dialog';
+import { PlusIcon } from './PlusIcon';
 import { SelectCategory } from './SelectCategory';
 import { SelectSubCategory } from './SelectSubCategory';
-import { PlusIcon } from './PlusIcon';
+import styles from './addExpense.module.css';
 
 export function AddExpense() {
   const [dialogOpen, setDialogOpen] = createSignal(false);

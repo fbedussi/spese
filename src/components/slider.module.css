@@ -1,6 +1,8 @@
 .slider {
   width: 100%;
   position: relative;
+  flex: 1;
+  overflow: hidden;
 }
 
 .slides {
@@ -9,6 +11,7 @@
   overflow-x: scroll;
   position: relative;
   scroll-snap-type: x mandatory;
+  height: 100%;
 }
 
 .slide {
@@ -16,8 +19,15 @@
   width: 100%;
   background: white;
   scroll-snap-align: center;
+  height: 100%;
 }
 
 .slideInner {
   width: 100vw;
+  height: 100%;
+
+  > div {
+    overflow-y: auto;
+    height: 100%;
+  }
 }
