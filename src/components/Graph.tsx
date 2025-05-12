@@ -60,84 +60,6 @@ const getOrCreateLegendList = (chart: Chart, id: string) => {
   return listContainer;
 };
 
-const htmlLegendPlugin = {
-  id: 'htmlLegend',
-  afterUpdate(
-    chart: Chart,
-    args: {
-      mode:
-        | 'resize'
-        | 'reset'
-        | 'none'
-        | 'hide'
-        | 'show'
-        | 'default'
-        | 'active';
-    },
-    options: { containerID: string },
-  ) {
-    const ul = getOrCreateLegendList(chart, options.containerID);
-
-    // Remove old legend items
-    while (ul.firstChild) {
-      ul.firstChild.remove();
-    }
-
-    // Reuse the built-in legendItems generator
-    const items = chart.options.plugins?.legend?.labels?.generateLabels
-      ? chart.options.plugins.legend.labels.generateLabels(chart)
-      : [];
-
-    items.forEach((item) => {
-      const li = document.createElement('li');
-      li.style.alignItems = 'center';
-      li.style.cursor = 'pointer';
-      li.style.display = 'flex';
-      li.style.flexDirection = 'row';
-      li.style.marginLeft = '10px';
-
-      li.onclick = () => {
-        const { type } = chart.config as { type: string };
-        if (type === 'pie' || type === 'doughnut') {
-          // Pie and doughnut charts only have a single dataset and visibility is per item
-          chart.toggleDataVisibility(item.index || 0);
-        } else {
-          chart.setDatasetVisibility(
-            item.datasetIndex || 0,
-            !chart.isDatasetVisible(item.datasetIndex || 0),
-          );
-        }
-        chart.update();
-      };
-
-      // Color box
-      const boxSpan = document.createElement('span');
-      boxSpan.style.background = item.fillStyle as string;
-      boxSpan.style.borderColor = item.strokeStyle as string;
-      boxSpan.style.borderWidth = `${item.lineWidth}px`;
-      boxSpan.style.display = 'inline-block';
-      boxSpan.style.flexShrink = '0';
-      boxSpan.style.height = '20px';
-      boxSpan.style.marginRight = '10px';
-      boxSpan.style.width = '20px';
-
-      // Text
-      const textContainer = document.createElement('p');
-      textContainer.style.color = item.fontColor as string;
-      textContainer.style.margin = '0';
-      textContainer.style.padding = '0';
-      textContainer.style.textDecoration = item.hidden ? 'line-through' : '';
-
-      const text = document.createTextNode(item.text);
-      textContainer.appendChild(text);
-
-      li.appendChild(boxSpan);
-      li.appendChild(textContainer);
-      ul.appendChild(li);
-    });
-  },
-};
-
 function getLabel(searchParams: Partial<SearchParams>) {
   if (searchParams.period === 'c' && searchParams.from && searchParams.to) {
     const dateFormat = 'dd/MM/yy';
@@ -146,9 +68,9 @@ function getLabel(searchParams: Partial<SearchParams>) {
 
   if (searchParams.period && searchParams.period !== 'c') {
     const periodLabel = {
-      '1s': 'ultima settimana',
-      '1m': 'ultimo mese',
-      '1a': 'ultimo anno',
+      settimana: 'ultima settimana',
+      mese: 'ultimo mese',
+      anno: 'ultimo anno',
     } as const;
 
     return periodLabel[searchParams.period];
@@ -158,7 +80,101 @@ function getLabel(searchParams: Partial<SearchParams>) {
 }
 
 export default function Graph() {
-  const [searchParams] = useSearchParams<SearchParams>();
+  const [searchParams, setSearchParams] = useSearchParams<SearchParams>();
+
+  const htmlLegendPlugin = {
+    id: 'htmlLegend',
+    afterUpdate(
+      chart: Chart,
+      args: {
+        mode:
+          | 'resize'
+          | 'reset'
+          | 'none'
+          | 'hide'
+          | 'show'
+          | 'default'
+          | 'active';
+      },
+      options: { containerID: string },
+    ) {
+      const ul = getOrCreateLegendList(chart, options.containerID);
+
+      // Remove old legend items
+      while (ul.firstChild) {
+        ul.firstChild.remove();
+      }
+
+      // Reuse the built-in legendItems generator
+      const items = chart.options.plugins?.legend?.labels?.generateLabels
+        ? chart.options.plugins.legend.labels.generateLabels(chart)
+        : [];
+
+      items.forEach((item) => {
+        const li = document.createElement('li');
+        li.style.alignItems = 'center';
+        li.style.cursor = 'pointer';
+        li.style.display = 'flex';
+        li.style.flexDirection = 'row';
+        li.style.marginLeft = '10px';
+
+        li.onclick = () => {
+          const { type } = chart.config as { type: string };
+          if (type === 'pie' || type === 'doughnut') {
+            if (!item.index) {
+              return;
+            }
+            // Pie and doughnut charts only have a single dataset and visibility is per item
+            chart.toggleDataVisibility(item.index || 0);
+            const disabledCategories =
+              searchParams.disabledCategories?.split(',') || [];
+            const isToDisable = disabledCategories.includes(
+              item.index?.toString(),
+            );
+            if (isToDisable) {
+              setSearchParams({
+                disabledCategories: disabledCategories
+                  .filter((x) => x !== item.index?.toString())
+                  .join(','),
+              });
+            } else {
+              setSearchParams({
+                disabledCategories: disabledCategories
+                  .concat(item.index?.toString())
+                  .join(','),
+              });
+            }
+          }
+          chart.update();
+        };
+
+        // Color box
+        const boxSpan = document.createElement('span');
+        boxSpan.style.background = item.fillStyle as string;
+        boxSpan.style.borderColor = item.strokeStyle as string;
+        boxSpan.style.borderWidth = `${item.lineWidth}px`;
+        boxSpan.style.display = 'inline-block';
+        boxSpan.style.flexShrink = '0';
+        boxSpan.style.height = '20px';
+        boxSpan.style.marginRight = '10px';
+        boxSpan.style.width = '20px';
+
+        // Text
+        const textContainer = document.createElement('p');
+        textContainer.style.color = item.fontColor as string;
+        textContainer.style.margin = '0';
+        textContainer.style.padding = '0';
+        textContainer.style.textDecoration = item.hidden ? 'line-through' : '';
+
+        const text = document.createTextNode(item.text);
+        textContainer.appendChild(text);
+
+        li.appendChild(boxSpan);
+        li.appendChild(textContainer);
+        ul.appendChild(li);
+      });
+    },
+  };
 
   let canvas: HTMLCanvasElement | undefined;
   let chart: Chart | undefined;

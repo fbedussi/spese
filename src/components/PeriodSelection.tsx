@@ -1,11 +1,9 @@
 import { useSearchParams } from '@solidjs/router';
-import styles from './PeriodSelection.module.css';
-import { type SearchParams, YyyyMmDd } from '~/types';
-import { formatMoney, getFormData } from '~/helpers';
-import { format } from 'date-fns';
 import { createSignal } from 'solid-js';
+import { getFormData } from '~/helpers';
+import { type SearchParams, YyyyMmDd } from '~/types';
 import { Dialog } from './Dialog';
-import { getFilteredDataTotal } from '~/data';
+import styles from './PeriodSelection.module.css';
 
 function Button(props: { label: string }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -37,7 +35,7 @@ export default function PeriodSelection() {
   return (
     <div class={styles.wrapper}>
       <div class={styles.buttons}>
-        {['1s', '1m', '1a'].map((label) => (
+        {['settimana', 'mese', 'anno'].map((label) => (
           <Button label={label} />
         ))}
         <button type="button" onClick={() => setDialogOpen(true)}>
@@ -94,9 +92,6 @@ export default function PeriodSelection() {
           </article>
         </Dialog>
       </div>
-      {/* <p data-testid="total-for-period">
-        {getLabel(searchParams)}: {formatMoney(getFilteredDataTotal())}
-      </p> */}
     </div>
   );
 }

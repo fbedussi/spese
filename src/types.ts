@@ -47,4 +47,5 @@ export type SearchParams = {
   from: string;
   to: string;
   demo: string;
+  disabledCategories: string
 };

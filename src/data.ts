@@ -1,9 +1,9 @@
-import { createSignal } from 'solid-js';
 import { useSearchParams } from '@solidjs/router';
-import { type Expense, type SearchParams, YyyyMmDd } from './types';
 import { subMonths, subWeeks, subYears } from 'date-fns';
+import { createSignal } from 'solid-js';
 import * as faker from './faker';
 import { getTotal } from './helpers';
+import { type Expense, type SearchParams, YyyyMmDd } from './types';
 
 export const [data, setData] = createSignal(
     window.location.search.includes('demo') ? faker.fakeExpenses(50) : [],
@@ -27,7 +27,7 @@ export const filteredData = () => {
         }
 
         return true;
-    });
+    })
 };
 
 export const updateExpense = (expenseToUpdate: Expense) => {
@@ -52,7 +52,12 @@ export const filteredDataByCategory = () =>
     ) || {};
 
 export const getFilteredDataTotal = () => {
-    return getTotal(filteredData());
+    const [searchParams] = useSearchParams<SearchParams>();
+
+    const disabledCategoriesIndex = searchParams.disabledCategories?.split(',') || []
+    const disabledCategories = disabledCategoriesIndex.map(i => categories()[Number(i)])
+    
+    return getTotal(filteredData().filter(({category}) => !disabledCategories.includes(category)));
 };
 
 export const addExpense = (formData: { [k: string]: FormDataEntryValue }) => {
