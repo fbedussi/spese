@@ -1,22 +1,28 @@
-import { filteredData, filteredDataByCategory } from '../data';
-import { createEffect } from 'solid-js';
-import { Expense } from '~/types';
+import { useSearchParams } from '@solidjs/router';
 import {
+  ArcElement,
   CategoryScale,
   Chart,
+  Colors,
+  DoughnutController,
+  Filler,
+  Legend,
+  LineElement,
   LinearScale,
   PieController,
-  LineElement,
-  ArcElement,
-  Legend,
   Tooltip,
-  Filler,
-  Colors,
 } from 'chart.js';
+import { format } from 'date-fns';
+import { createEffect } from 'solid-js';
+import { getFilteredDataTotal } from '~/data';
+import { formatMoney } from '~/helpers';
+import { Expense, type SearchParams } from '~/types';
+import { filteredData, filteredDataByCategory } from '../data';
 import styles from './graph.module.css';
 
 Chart.register([
   CategoryScale,
+  DoughnutController,
   PieController,
   LineElement,
   LinearScale,
@@ -27,7 +33,28 @@ Chart.register([
   Colors,
 ]);
 
+function getLabel(searchParams: Partial<SearchParams>) {
+  if (searchParams.period === 'c' && searchParams.from && searchParams.to) {
+    const dateFormat = 'dd/MM/yy';
+    return `da ${format(searchParams.from, dateFormat)} a ${format(searchParams.to, dateFormat)}`;
+  }
+
+  if (searchParams.period && searchParams.period !== 'c') {
+    const periodLabel = {
+      '1s': 'ultima settimana',
+      '1m': 'ultimo mese',
+      '1a': 'ultimo anno',
+    } as const;
+
+    return periodLabel[searchParams.period];
+  }
+
+  return '';
+}
+
 export default function Graph() {
+  const [searchParams] = useSearchParams<SearchParams>();
+
   let canvas: HTMLCanvasElement | undefined;
   let chart: Chart | undefined;
 
@@ -43,7 +70,7 @@ export default function Graph() {
       chart.destroy();
     }
     chart = new Chart(canvas, {
-      type: 'pie',
+      type: 'doughnut',
       data: {
         labels,
         datasets: [
@@ -61,20 +88,20 @@ export default function Graph() {
           },
           tooltip: {
             callbacks: {
-              label: (context) => `€ ${context.parsed} • ${Math.round((context.parsed / context.dataset.data.reduce((tot, n) => tot + n)) * 100)}%`,
+              label: (context) =>
+                `€ ${context.parsed} • ${Math.round((context.parsed / context.dataset.data.reduce((tot, n) => tot + n)) * 100)}%`,
             },
           },
         },
       },
     });
-    // } else {
-    //     chart.data.datasets[0].data = data
-    //     chart.data.labels = labels
-    //     chart.update()
-    // }
   });
   return (
-    <div class="main__wrapper">
+    <div classList={{ main__wrapper: true, [styles.wrapper]: true }}>
+      <div data-testid="total-for-period" class={styles.totalWrapper}>
+        <div class={styles.total}>{formatMoney(getFilteredDataTotal())}</div>
+        <div>{getLabel(searchParams)}</div>
+      </div>
       <canvas class={styles.canvas} ref={canvas} />
     </div>
   );

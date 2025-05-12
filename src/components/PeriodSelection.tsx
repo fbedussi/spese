@@ -26,25 +26,6 @@ function Button(props: { label: string }) {
   );
 }
 
-function getLabel(searchParams: Partial<SearchParams>) {
-  if (searchParams.period === 'c' && searchParams.from && searchParams.to) {
-    const dateFormat = 'dd/MM/yy';
-    return `da ${format(searchParams.from, dateFormat)} a ${format(searchParams.to, dateFormat)}`;
-  }
-
-  if (searchParams.period && searchParams.period !== 'c') {
-    const periodLabel = {
-      '1s': 'ultima settimana',
-      '1m': 'ultimo mese',
-      '1a': 'ultimo anno',
-    } as const;
-
-    return periodLabel[searchParams.period];
-  }
-
-  return '';
-}
-
 export default function PeriodSelection() {
   const [searchParams, setSearchParams] = useSearchParams<SearchParams>();
   const [dialogOpen, setDialogOpen] = createSignal(false);
@@ -59,7 +40,9 @@ export default function PeriodSelection() {
         {['1s', '1m', '1a'].map((label) => (
           <Button label={label} />
         ))}
-        <button type="button" onClick={() => setDialogOpen(true)}>da/a</button>
+        <button type="button" onClick={() => setDialogOpen(true)}>
+          da/a
+        </button>
         <Dialog
           id="custom-dates"
           open={dialogOpen()}
@@ -104,14 +87,16 @@ export default function PeriodSelection() {
               >
                 cancel
               </button>
-              <button type="submit" form="set-dates-form">salva</button>
+              <button type="submit" form="set-dates-form">
+                salva
+              </button>
             </footer>
           </article>
         </Dialog>
       </div>
-      <p data-testid="total-for-period">
+      {/* <p data-testid="total-for-period">
         {getLabel(searchParams)}: {formatMoney(getFilteredDataTotal())}
-      </p>
+      </p> */}
     </div>
   );
 }
