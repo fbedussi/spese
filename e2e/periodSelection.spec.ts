@@ -1,7 +1,7 @@
-import { test, expect } from '@playwright/test';
-import { addExpense } from './utils';
-import { YyyyMmDd } from '~/types';
+import { expect, test } from '@playwright/test';
 import { subWeeks } from 'date-fns';
+import { YyyyMmDd } from '~/types';
+import { addExpense } from './utils';
 
 test('has period selection buttons, 1m is selected by default', async ({ page }) => {
   await page.goto('http://localhost:3030/');
@@ -17,7 +17,7 @@ test('has total for period', async ({ page }) => {
   await page.goto('http://localhost:3030/');
 
   await expect(page.getByTestId('total-for-period')).toBeVisible();
-  await expect(page.getByTestId('total-for-period')).toHaveText('ultimo mese: €0');
+  await expect(page.getByTestId('total-for-period')).toHaveText('€0ultimo mese');
 });
 
 test('the "add an expense" button opens the add an expense dialog', async ({ page }) => {
