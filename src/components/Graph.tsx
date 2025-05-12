@@ -8,13 +8,14 @@ import {
   DoughnutController,
   Filler,
   Legend,
+  type LegendItem,
   LineElement,
   LinearScale,
   PieController,
   Tooltip,
 } from 'chart.js';
 import { format } from 'date-fns';
-import { createEffect } from 'solid-js';
+import { createEffect, createSignal } from 'solid-js';
 import { getFilteredDataTotal } from '~/data';
 import { formatMoney } from '~/helpers';
 import type { SearchParams } from '~/types';
@@ -43,23 +44,6 @@ Chart.register([
   Colors,
 ]);
 
-const getOrCreateLegendList = (chart: Chart, id: string) => {
-  const legendContainer = document.getElementById(id);
-  let listContainer = legendContainer?.querySelector('ul');
-
-  if (!listContainer) {
-    listContainer = document.createElement('ul');
-    listContainer.style.display = 'flex';
-    listContainer.style.flexDirection = 'row';
-    listContainer.style.margin = '0';
-    listContainer.style.padding = '0';
-
-    legendContainer?.appendChild(listContainer);
-  }
-
-  return listContainer;
-};
-
 function getLabel(searchParams: Partial<SearchParams>) {
   if (searchParams.period === 'c' && searchParams.from && searchParams.to) {
     const dateFormat = 'dd/MM/yy';
@@ -81,98 +65,17 @@ function getLabel(searchParams: Partial<SearchParams>) {
 
 export default function Graph() {
   const [searchParams, setSearchParams] = useSearchParams<SearchParams>();
+  const [legendItems, setLegendItems] = createSignal<LegendItem[]>([]);
 
   const htmlLegendPlugin = {
     id: 'htmlLegend',
-    afterUpdate(
-      chart: Chart,
-      args: {
-        mode:
-          | 'resize'
-          | 'reset'
-          | 'none'
-          | 'hide'
-          | 'show'
-          | 'default'
-          | 'active';
-      },
-      options: { containerID: string },
-    ) {
-      const ul = getOrCreateLegendList(chart, options.containerID);
-
-      // Remove old legend items
-      while (ul.firstChild) {
-        ul.firstChild.remove();
-      }
-
+    afterUpdate(chart: Chart) {
       // Reuse the built-in legendItems generator
-      const items = chart.options.plugins?.legend?.labels?.generateLabels
-        ? chart.options.plugins.legend.labels.generateLabels(chart)
-        : [];
-
-      items.forEach((item) => {
-        const li = document.createElement('li');
-        li.style.alignItems = 'center';
-        li.style.cursor = 'pointer';
-        li.style.display = 'flex';
-        li.style.flexDirection = 'row';
-        li.style.marginLeft = '10px';
-
-        li.onclick = () => {
-          const { type } = chart.config as { type: string };
-          if (type === 'pie' || type === 'doughnut') {
-            if (!item.index) {
-              return;
-            }
-            // Pie and doughnut charts only have a single dataset and visibility is per item
-            chart.toggleDataVisibility(item.index || 0);
-            const disabledCategories =
-              searchParams.disabledCategories?.split(',') || [];
-            const isToDisable = disabledCategories.includes(
-              item.index?.toString(),
-            );
-            if (isToDisable) {
-              setSearchParams({
-                disabledCategories: disabledCategories
-                  .filter((x) => x !== item.index?.toString())
-                  .join(','),
-              });
-            } else {
-              setSearchParams({
-                disabledCategories: disabledCategories
-                  .concat(item.index?.toString())
-                  .join(','),
-              });
-            }
-          }
-          chart.update();
-        };
-
-        // Color box
-        const boxSpan = document.createElement('span');
-        boxSpan.style.background = item.fillStyle as string;
-        boxSpan.style.borderColor = item.strokeStyle as string;
-        boxSpan.style.borderWidth = `${item.lineWidth}px`;
-        boxSpan.style.display = 'inline-block';
-        boxSpan.style.flexShrink = '0';
-        boxSpan.style.height = '20px';
-        boxSpan.style.marginRight = '10px';
-        boxSpan.style.width = '20px';
-
-        // Text
-        const textContainer = document.createElement('p');
-        textContainer.style.color = item.fontColor as string;
-        textContainer.style.margin = '0';
-        textContainer.style.padding = '0';
-        textContainer.style.textDecoration = item.hidden ? 'line-through' : '';
-
-        const text = document.createTextNode(item.text);
-        textContainer.appendChild(text);
-
-        li.appendChild(boxSpan);
-        li.appendChild(textContainer);
-        ul.appendChild(li);
-      });
+      setLegendItems(
+        chart.options.plugins?.legend?.labels?.generateLabels
+          ? chart.options.plugins.legend.labels.generateLabels(chart)
+          : [],
+      );
     },
   };
 
@@ -183,13 +86,16 @@ export default function Graph() {
     if (!canvas) {
       return;
     }
+
     const labels = Object.keys(filteredDataByCategory());
     const data = Object.values(filteredDataByCategory()).map((expenses) =>
       expenses.reduce((tot, expense) => tot + expense.value, 0),
     );
+
     if (chart) {
       chart.destroy();
     }
+
     chart = new Chart(canvas, {
       type: 'doughnut',
       data: {
@@ -204,10 +110,6 @@ export default function Graph() {
       options: {
         responsive: true,
         plugins: {
-          htmlLegend: {
-            // ID of the container to put the legend in
-            containerID: 'legend-container',
-          },
           legend: {
             display: false,
           },
@@ -228,9 +130,74 @@ export default function Graph() {
       plugins: [htmlLegendPlugin],
     });
   });
+
+  const disabledCategories = () =>
+    searchParams.disabledCategories?.split(',') || [];
+
+  createEffect(() => {
+    chart?.legend?.legendItems?.forEach((legendItem, index) => {
+      if (disabledCategories().includes(legendItem.text)) {
+        chart?.hide(0, index);
+      } else {
+        chart?.show(0, index);
+      }
+    });
+    chart?.update();
+  });
+
   return (
     <div classList={{ main__wrapper: true, [styles.wrapper]: true }}>
-      <div id="legend-container" />
+      <div>
+        <ul class={styles.legend}>
+          {legendItems().map((item) => (
+            <li
+              class={styles.legendItem}
+              onclick={() => {
+                if (typeof item.index !== 'number') {
+                  return;
+                }
+                const disabledCategories =
+                  searchParams.disabledCategories?.split(',') || [];
+                const isToDisable = disabledCategories.includes(
+                  item.text?.toString(),
+                );
+                if (isToDisable) {
+                  setSearchParams({
+                    disabledCategories: disabledCategories
+                      .filter((x) => x !== item.text?.toString())
+                      .join(','),
+                  });
+                } else {
+                  setSearchParams({
+                    disabledCategories: disabledCategories
+                      .concat(item.text?.toString())
+                      .join(','),
+                  });
+                }
+              }}
+            >
+              <span
+                class={styles.boxSpan}
+                style={{
+                  background: item.fillStyle as string,
+                  'border-color': item.strokeStyle as string,
+                  'border-width': `${item.lineWidth}px`,
+                }}
+              />
+              <p
+                classList={{
+                  [styles.legendText]: true,
+                  [styles.legendTextHidden]: disabledCategories().includes(
+                    item.text,
+                  ),
+                }}
+              >
+                {item.text}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </div>
       <div class={styles.graphAndTotal}>
         <div data-testid="total-for-period" class={styles.totalWrapper}>
           <div class={styles.total}>{formatMoney(getFilteredDataTotal())}</div>

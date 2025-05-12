@@ -6,10 +6,10 @@ import { addExpense } from './utils';
 test('has period selection buttons, 1m is selected by default', async ({ page }) => {
   await page.goto('http://localhost:3030/');
 
-  await expect(page.getByRole('button', { name: '1s' })).toBeVisible();
-  await expect(page.getByRole('button', { name: '1m' })).toBeVisible();
-  await expect(page.getByRole('button', { name: '1m' })).toHaveAttribute('aria-current', 'true');
-  await expect(page.getByRole('button', { name: '1a' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'settimana' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'mese' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'mese' })).toHaveAttribute('aria-current', 'true');
+  await expect(page.getByRole('button', { name: 'anno' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'da/a' })).toBeVisible();
 });
 

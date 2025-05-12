@@ -19,9 +19,9 @@ export const filteredData = () => {
 
         if (searchParams.period && searchParams.period !== 'c') {
             const periodMap = {
-                '1s': new YyyyMmDd(subWeeks(new Date(), 1)),
-                '1m': new YyyyMmDd(subMonths(new Date(), 1)),
-                '1a': new YyyyMmDd(subYears(new Date(), 1)),
+                'settimana': new YyyyMmDd(subWeeks(new Date(), 1)),
+                'mese': new YyyyMmDd(subMonths(new Date(), 1)),
+                'anno': new YyyyMmDd(subYears(new Date(), 1)),
             } as const;
             return date.gte(periodMap[searchParams.period]);
         }
@@ -54,8 +54,7 @@ export const filteredDataByCategory = () =>
 export const getFilteredDataTotal = () => {
     const [searchParams] = useSearchParams<SearchParams>();
 
-    const disabledCategoriesIndex = searchParams.disabledCategories?.split(',') || []
-    const disabledCategories = disabledCategoriesIndex.map(i => categories()[Number(i)])
+    const disabledCategories = searchParams.disabledCategories?.split(',') || []
     
     return getTotal(filteredData().filter(({category}) => !disabledCategories.includes(category)));
 };
