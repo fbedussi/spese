@@ -1,17 +1,22 @@
+import { useSearchParams } from '@solidjs/router';
 import { format } from 'date-fns';
+import { Show, createSignal } from 'solid-js';
 import { delExpense, filteredData, updateExpense } from '~/data';
 import { formatMoney, getFormData } from '~/helpers';
-import { EditIcon } from './EditIcon';
+import { type Expense, type SearchParams, YyyyMmDd } from '~/types';
+import { DeleteIcon } from './DeleteIcon';
 import { Dialog } from './Dialog';
-import { createSignal, Show } from 'solid-js';
-import { type Expense, YyyyMmDd } from '~/types';
+import { EditIcon } from './EditIcon';
 import { SelectCategory } from './SelectCategory';
 import { SelectSubCategory } from './SelectSubCategory';
-import { DeleteIcon } from './DeleteIcon';
 
 export function ExpensesList() {
   const [expenseToEdit, setExpenseToEdit] = createSignal<Expense | null>(null);
-  const [selectedCategory, setSelectedCategory] = createSignal('');
+  const [_, setSelectedCategory] = createSignal('');
+
+  const [searchParams] = useSearchParams<SearchParams>();
+  const disabledCategories = () =>
+    searchParams.disabledCategories?.split(',') || [];
 
   return (
     <div class="main__wrapper">
@@ -27,6 +32,7 @@ export function ExpensesList() {
         <tbody>
           {filteredData()
             .sort((a, b) => (a.date.gte(b.date) ? -1 : 1))
+            .filter(({ category }) => !disabledCategories().includes(category))
             .map((expense) => (
               <tr>
                 <td>{format(expense.date.getDate(), 'dd/MM')}</td>
