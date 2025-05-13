@@ -66,7 +66,7 @@ export function ExpensesList() {
                   ev.preventDefault();
                   const formData = getFormData(ev.currentTarget);
                   const expenseToUpdate = {
-                    id: expenseToEdit().id,
+                    ...expenseToEdit(),
                     name:
                       typeof formData.name === 'string'
                         ? formData.name
@@ -167,7 +167,7 @@ export function ExpensesList() {
                     cancel
                   </button>
                   <button
-                    type="button"
+                    type="submit"
                     form="edit-expense-form"
                     data-testid="save"
                   >

@@ -35,6 +35,18 @@ header {
   }
 }
 
+.loginMain {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginForm {
+  max-width: 25rem;
+}
+
 .home {
   padding-top: 1rem;
   flex: 1;

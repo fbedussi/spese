@@ -40,6 +40,8 @@ export type Expense = {
   // in months
   span: number;
   value: number;
+  createdAt: number;
+  updatedAt: number;
 };
 
 export type SearchParams = {
@@ -47,5 +49,5 @@ export type SearchParams = {
   from: string;
   to: string;
   demo: string;
-  disabledCategories: string
+  disabledCategories: string;
 };

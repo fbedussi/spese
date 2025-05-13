@@ -1,6 +1,7 @@
 import { useSearchParams } from '@solidjs/router';
 import { subMonths, subWeeks, subYears } from 'date-fns';
 import { createSignal } from 'solid-js';
+import * as backend from './backend.ts'
 import * as faker from './faker';
 import { getTotal } from './helpers';
 import { type Expense, type SearchParams, YyyyMmDd } from './types';
@@ -8,6 +9,8 @@ import { type Expense, type SearchParams, YyyyMmDd } from './types';
 export const [data, setData] = createSignal(
     window.location.search.includes('demo') ? faker.fakeExpenses(50) : [],
 );
+
+backend.getExpenses(setData)
 
 export const filteredData = () => {
     const [searchParams] = useSearchParams<SearchParams>();
@@ -31,15 +34,17 @@ export const filteredData = () => {
 };
 
 export const updateExpense = (expenseToUpdate: Expense) => {
-    setData(
-        data().map((expense) =>
-            expense.id === expenseToUpdate.id ? expenseToUpdate : expense,
-        ),
-    );
+    // setData(
+    //     data().map((expense) =>
+    //         expense.id === expenseToUpdate.id ? expenseToUpdate : expense,
+    //     ),
+    // );
+    backend.updateExpense(expenseToUpdate)
 };
 
 export const delExpense = (id: string) => {
-    setData(data().filter((expense) => expense.id !== id));
+    // setData(data().filter((expense) => expense.id !== id));
+    backend.deleteExpense(id)
 };
 
 export const filteredDataByCategory = () =>
@@ -85,8 +90,9 @@ export const addExpense = (formData: { [k: string]: FormDataEntryValue }) => {
         subcategory: formData.subcategory,
         span: Number(formData.span),
         value: Number(formData.value),
-    } as Expense;
-    setData(data().concat(newExpense));
+    } as Omit<Expense, 'id'>;
+    // setData(data().concat(newExpense));
+    backend.addExpense(newExpense)
 };
 
 export const [categories, setCategories] = createSignal(faker.categories);

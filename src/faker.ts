@@ -40,6 +40,8 @@ export function fakeExpense(): Expense {
     subcategory: pickRandom(subcategories[category]),
     span: pickRandom(spans),
     value: getRandomNumber(1000) + 1,
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
   };
 }
 

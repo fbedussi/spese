@@ -85,7 +85,7 @@ export function AddExpense() {
             >
               cancel
             </button>
-            <button type="submit" form="add-expense-form" data-testid="save">
+            <button form="add-expense-form" data-testid="save">
               salva
             </button>
           </footer>

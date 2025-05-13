@@ -2,9 +2,9 @@ import { addMonths } from 'date-fns';
 import { YyyyMmDd } from './types.ts';
 import type { Expense } from './types.ts';
 
-export function getFormData(form: HTMLFormElement) {
+export function getFormData<T extends { [k: string]: FormDataEntryValue }>(form: HTMLFormElement) {
   const formData = new FormData(form);
-  return Object.fromEntries(formData);
+  return Object.fromEntries(formData) as T;
 }
 
 const eurFormatter = new Intl.NumberFormat('en-US', {
