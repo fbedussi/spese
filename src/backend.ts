@@ -11,6 +11,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDocs,
   initializeFirestore,
   onSnapshot,
   persistentLocalCache,
@@ -18,6 +19,7 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
+import { subcategories } from './faker';
 import { type Expense, YyyyMmDd } from './types';
 
 const USER_ID = 'userId';
@@ -174,3 +176,75 @@ export const updateExpense = async (expense: Expense) => {
 
 export const deleteExpense = (id: string) =>
   deleteDoc(doc(db, EXPENSES_COLLECTION_NAME, id));
+
+const CATEGORIES_COLLECTION_NAME = 'categories';
+
+type CategoriesBE = {
+  userId: string;
+  categories: string[];
+  subcategories: Record<string, string[]>;
+};
+
+export const getCategories = async (
+  sendCategories: (categories: string[]) => void,
+  sendSubcategories: (subCategories: Record<string, string[]>) => void,
+) => {
+  const userId = getUserId();
+  if (!userId) {
+    throw new Error('user is not logged in');
+  }
+
+  const q = query(
+    collection(db, CATEGORIES_COLLECTION_NAME),
+    where('userId', '==', userId),
+  );
+  let categories: string[] = [];
+  let subcategories: Record<string, string[]> = {};
+  onSnapshot(q, (querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      const categoriesBE = doc.data() as CategoriesBE;
+      categories = categoriesBE.categories;
+      subcategories = categoriesBE.subcategories;
+    });
+    sendCategories(categories);
+    sendSubcategories(subcategories);
+  });
+};
+
+export const updateCategories = async (
+  categories: string[],
+  subcategories: Record<string, string[]>,
+) => {
+  const userId = getUserId();
+  if (!userId) {
+    throw new Error('user is not logged in');
+  }
+
+  const timestamp = new Date().getTime();
+
+  try {
+    const q = query(
+      collection(db, CATEGORIES_COLLECTION_NAME),
+      where('userId', '==', userId),
+    );
+    const snapshot = await getDocs(q);
+    const docRef = snapshot.docs[0]?.ref;
+    if (docRef) {
+      await updateDoc(docRef, {
+        categories,
+        subcategories,
+        updatedAt: timestamp,
+      });
+    } else {
+      await addDoc(collection(db, CATEGORIES_COLLECTION_NAME), {
+        userId,
+        categories,
+        subcategories,
+        createdAt: timestamp,
+        updatedAt: timestamp,
+      });
+    }
+  } catch (err) {
+    console.error(JSON.stringify(err));
+  }
+};
