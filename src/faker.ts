@@ -7,7 +7,7 @@ import {
 
 const names = ['foo', 'baz', 'bar'];
 
-export const categories: Categories[] = [
+export const categories: Categories = [
   'other',
   'car',
   'motorbike',

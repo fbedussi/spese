@@ -4,7 +4,12 @@ import { createSignal } from 'solid-js';
 import * as backend from './backend.ts';
 import * as faker from './faker';
 import { getTotal } from './helpers';
-import { type Expense, type SearchParams, YyyyMmDd } from './types';
+import {
+  type Categories,
+  type Expense,
+  type SearchParams,
+  YyyyMmDd,
+} from './types';
 
 const demoMode = window.location.search.includes('demo');
 
@@ -117,7 +122,7 @@ export const addExpense = (formData: { [k: string]: FormDataEntryValue }) => {
   }
 };
 
-export const [categories, setCategories] = createSignal<string[]>([]);
+export const [categories, setCategories] = createSignal<Categories>([]);
 export const [subCategories, setSubCategories] = createSignal<
   Record<string, string[]>
 >({});
@@ -197,7 +202,7 @@ export const addSubcategory = (category: string, newSubcategory: string) => {
   }
 };
 
-const [limits_, setLimits_] = createSignal<Record<string, number>>();
+const [limits_, setLimits_] = createSignal<Record<string, number>>({});
 
 export const limits = limits_;
 
@@ -212,10 +217,12 @@ if (demoMode) {
   backend.getLimits(setLimits_);
 }
 
-export const setLimits = (limits: Record<string, number>) => {
+// args can be the updated limits or a function oldLimits => newLimits
+export const setLimits: typeof setLimits_ = (args) => {
   if (demoMode) {
-    setLimits_(limits);
+    setLimits_(args);
   } else {
-    backend.updateLimits(limits);
+    const updatedLimits = typeof args === 'function' ? args(limits_()) : args;
+    backend.updateLimits(updatedLimits);
   }
 };

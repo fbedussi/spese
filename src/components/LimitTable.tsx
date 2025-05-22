@@ -1,9 +1,9 @@
+import { createSignal } from 'solid-js';
 import { filteredDataByCategory, limits, setLimits } from '~/data';
 import { formatMoney, getFormData } from '~/helpers';
-import styles from './limitTable.module.css';
 import { Dialog } from './Dialog';
-import { createSignal } from 'solid-js';
 import { EditIcon } from './EditIcon';
+import styles from './limitTable.module.css';
 
 export function LimitTable() {
   const [limitToEdit, setLimitToEdit] = createSignal('');
@@ -62,7 +62,9 @@ export function LimitTable() {
                 id="set-limit"
                 value={limits()[limitToEdit()]}
               />
-              <button type="submit" form="set-limit-form">salva</button>
+              <button type="submit" form="set-limit-form">
+                salva
+              </button>
             </fieldset>
           </form>
         </article>
