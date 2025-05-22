@@ -197,9 +197,25 @@ export const addSubcategory = (category: string, newSubcategory: string) => {
   }
 };
 
-export const [limits, setLimits] = createSignal({
-  car: 1000,
-  motorbike: 1500,
-  food: 3000,
-  restaurant: 500,
-} as Record<string, number>);
+const [limits_, setLimits_] = createSignal<Record<string, number>>();
+
+export const limits = limits_;
+
+if (demoMode) {
+  setLimits_({
+    car: 1000,
+    motorbike: 1500,
+    food: 3000,
+    restaurant: 500,
+  });
+} else {
+  backend.getLimits(setLimits_);
+}
+
+export const setLimits = (limits: Record<string, number>) => {
+  if (demoMode) {
+    setLimits_(limits);
+  } else {
+    backend.updateLimits(limits);
+  }
+};

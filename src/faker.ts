@@ -1,8 +1,13 @@
-import { type Expense, YyyyMmDd } from './types';
+import {
+  type Categories,
+  type Expense,
+  type Subcategories,
+  YyyyMmDd,
+} from './types';
 
 const names = ['foo', 'baz', 'bar'];
 
-export const categories: (keyof typeof subcategories)[] = [
+export const categories: Categories[] = [
   'other',
   'car',
   'motorbike',
@@ -10,7 +15,7 @@ export const categories: (keyof typeof subcategories)[] = [
   'restaurant',
 ];
 
-export const subcategories: Record<string, string[]> = {
+export const subcategories: Subcategories = {
   other: ['other'],
   car: ['insurance', 'buy', 'tax', 'wheels', 'toll'],
   motorbike: ['insurance', 'buy', 'tax', 'wheels', 'maintenance'],

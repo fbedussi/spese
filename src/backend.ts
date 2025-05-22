@@ -19,8 +19,13 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
-import { subcategories } from './faker';
-import { type Expense, YyyyMmDd } from './types';
+import {
+  type Categories,
+  type Expense,
+  type Limits,
+  type Subcategories,
+  YyyyMmDd,
+} from './types';
 
 const USER_ID = 'userId';
 
@@ -181,13 +186,13 @@ const CATEGORIES_COLLECTION_NAME = 'categories';
 
 type CategoriesBE = {
   userId: string;
-  categories: string[];
-  subcategories: Record<string, string[]>;
+  categories: Categories;
+  subcategories: Subcategories;
 };
 
 export const getCategories = async (
-  sendCategories: (categories: string[]) => void,
-  sendSubcategories: (subCategories: Record<string, string[]>) => void,
+  sendCategories: (categories: Categories) => void,
+  sendSubcategories: (subCategories: Subcategories) => void,
 ) => {
   const userId = getUserId();
   if (!userId) {
@@ -198,8 +203,8 @@ export const getCategories = async (
     collection(db, CATEGORIES_COLLECTION_NAME),
     where('userId', '==', userId),
   );
-  let categories: string[] = [];
-  let subcategories: Record<string, string[]> = {};
+  let categories: Categories = [];
+  let subcategories: Subcategories = {};
   onSnapshot(q, (querySnapshot) => {
     querySnapshot.forEach((doc) => {
       const categoriesBE = doc.data() as CategoriesBE;
@@ -212,8 +217,8 @@ export const getCategories = async (
 };
 
 export const updateCategories = async (
-  categories: string[],
-  subcategories: Record<string, string[]>,
+  categories: Categories,
+  subcategories: Subcategories,
 ) => {
   const userId = getUserId();
   if (!userId) {
@@ -240,6 +245,68 @@ export const updateCategories = async (
         userId,
         categories,
         subcategories,
+        createdAt: timestamp,
+        updatedAt: timestamp,
+      });
+    }
+  } catch (err) {
+    console.error(JSON.stringify(err));
+  }
+};
+
+const LIMITS_COLLECTION_NAME = 'limits';
+
+type LimitsBE = {
+  userId: string;
+  limits: Limits;
+  createdAt: number;
+  updatedAt: number;
+};
+
+export const getLimits = async (sendLimits: (limits: Limits) => void) => {
+  const userId = getUserId();
+  if (!userId) {
+    throw new Error('user is not logged in');
+  }
+
+  const q = query(
+    collection(db, LIMITS_COLLECTION_NAME),
+    where('userId', '==', userId),
+  );
+  let limits: Limits = {};
+  onSnapshot(q, (querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      const limitsBE = doc.data() as LimitsBE;
+      limits = limitsBE.limits;
+    });
+    sendLimits(limits);
+  });
+};
+
+export const updateLimits = async (limits: Limits) => {
+  const userId = getUserId();
+  if (!userId) {
+    throw new Error('user is not logged in');
+  }
+
+  const timestamp = new Date().getTime();
+
+  try {
+    const q = query(
+      collection(db, LIMITS_COLLECTION_NAME),
+      where('userId', '==', userId),
+    );
+    const snapshot = await getDocs(q);
+    const docRef = snapshot.docs[0]?.ref;
+    if (docRef) {
+      await updateDoc(docRef, {
+        limits,
+        updatedAt: timestamp,
+      });
+    } else {
+      await addDoc(collection(db, LIMITS_COLLECTION_NAME), {
+        userId,
+        limits,
         createdAt: timestamp,
         updatedAt: timestamp,
       });

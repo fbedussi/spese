@@ -51,3 +51,9 @@ export type SearchParams = {
   demo: string;
   disabledCategories: string;
 };
+
+export type Limits = Record<string, number>;
+
+export type Subcategories = Record<string, string[]>;
+
+export type Categories = string[];
