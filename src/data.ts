@@ -134,6 +134,18 @@ if (demoMode) {
   backend.getCategories(setCategories, setSubCategories);
 }
 
+export const deleteCategory = ({ category }: { category: string }) => {
+  const updatedSubcategories = structuredClone(subCategories());
+  delete updatedSubcategories[category];
+  const updatedCategories = categories().filter((c) => c !== category);
+  if (demoMode) {
+    setSubCategories(updatedSubcategories);
+    setCategories(updatedCategories);
+  } else {
+    backend.updateCategories(updatedCategories, updatedSubcategories);
+  }
+};
+
 export const deleteSubcategory = ({
   category,
   subcategory,
@@ -165,6 +177,27 @@ export const editSubcategory = (props: {
     setSubCategories(updatedSubcategories);
   } else {
     backend.updateCategories(categories(), updatedSubcategories);
+  }
+};
+
+export const editCategory = (props: {
+  category: string;
+  index: number;
+}) => {
+  const oldCategory = categories()[props.index];
+  const updatedSubcategories = {
+    ...subCategories(),
+    [props.category]: subCategories()[oldCategory],
+  };
+  delete updatedSubcategories[oldCategory];
+
+  const updatedCategories = [...categories()];
+  updatedCategories[props.index] = props.category;
+  if (demoMode) {
+    setSubCategories(updatedSubcategories);
+    setCategories(updatedCategories);
+  } else {
+    backend.updateCategories(updatedCategories, updatedSubcategories);
   }
 };
 

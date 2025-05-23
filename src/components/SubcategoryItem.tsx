@@ -1,9 +1,4 @@
-import {
-  deleteSubcategory,
-  editSubcategory,
-  setSubCategories,
-  subCategories,
-} from '~/data';
+import { deleteSubcategory, editSubcategory } from '~/data';
 import { DeleteIcon } from './DeleteIcon';
 import { CheckIcon } from './CheckIcon';
 

@@ -4,7 +4,6 @@
 
 .subcategory {
   display: flex;
-  width: 100% !important;
   align-items: center;
 
   > span {
@@ -13,16 +12,17 @@
     gap: 1rem;
     justify-content: space-between;
 
-    input {
-      display: none;
-      margin-bottom: 0;
-      flex: 1;
+  }
+  input:not(:checked) {
+    margin-bottom: 0;
+    
+    + span {
+      input,
+      button {
+        display: none;
+      }
     }
 
-    button {
-      visibility: hidden;
-      height: 0;
-    }
   }
 
   input:checked + span {
@@ -32,11 +32,6 @@
 
     input {
       display: block;
-    }
-
-    button {
-      height: auto;
-      visibility: visible;
     }
   }
 }
