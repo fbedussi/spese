@@ -1,0 +1,3 @@
+- autofocus on new subcategory input
+- clear button subcategory input
+- notification if subcategory already present

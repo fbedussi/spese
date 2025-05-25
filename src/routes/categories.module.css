@@ -1,25 +1,52 @@
 .main {
   padding: 1rem;
+
+  > ul {
+    padding-left: 0;
+  }
+
+  ul {
+    li {
+      list-style: none;
+    }
+  }
 }
 
-.subcategory {
+.categoryItem {
   display: flex;
   align-items: center;
+  width: 100% !important;
+  height: 50px;
 
   > span {
     display: flex;
     flex: 1;
     gap: 1rem;
     justify-content: space-between;
+    align-items: center;
+  }
+    
+  input {
+    + span {
+      white-space: nowrap;
+      
+      input,
+      button {
+        transition: opacity 0.15s;
+        margin-bottom: 0;
+      }
+    }
 
   }
+
   input:not(:checked) {
     margin-bottom: 0;
     
     + span {
       input,
       button {
-        display: none;
+        visibility: hidden;
+        opacity: 0;
       }
     }
 
@@ -29,9 +56,10 @@
     span {
       display: none;
     }
-
-    input {
-      display: block;
+    
+    input,
+    button {
+      opacity: 1;
     }
   }
 }

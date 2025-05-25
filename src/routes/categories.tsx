@@ -24,25 +24,18 @@ export default function About() {
         </a>
         Categorie
       </h1>
-      <table>
-        <thead>
-          <tr>
-            <td>Categorie</td>
-            <td>Sottocategorie</td>
-          </tr>
-        </thead>
-        <tbody>
-          {categories().map((category, index) => (
-            <tr>
-              <td>
-                <label class={styles.subcategory}>
-                  <input type="radio" name="subcategory" />
-                  <CategoryItem category={category} index={index} />
-                </label>
-              </td>
-              <td>
-                {subCategories()[category]?.map((subcategory, index) => (
-                  <label class={styles.subcategory}>
+      <ul>
+        {categories().map((category, index) => (
+          <li>
+            <label class={styles.categoryItem}>
+              <input type="radio" name="subcategory" />
+              <CategoryItem category={category} index={index} />
+            </label>
+
+            <ul>
+              {subCategories()[category]?.map((subcategory, index) => (
+                <li>
+                  <label class={styles.categoryItem}>
                     <input
                       type="radio"
                       name="subcategory"
@@ -54,8 +47,9 @@ export default function About() {
                       index={index}
                     />
                   </label>
-                ))}
-
+                </li>
+              ))}
+              <li>
                 <AddNewSubcategory
                   showForm={addNewSubcategoryToCategory() === category}
                   setShowForm={() => setAddNewSubcategoryToCategory(category)}
@@ -63,18 +57,12 @@ export default function About() {
                     addSubcategory(category, newSubcategory)
                   }
                 />
-              </td>
-            </tr>
-          ))}
-          <tr>
-            <td colSpan={2}>
-              <AddNewCategory
-                addCategory={(newCategory) => addCategory(newCategory)}
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              </li>
+            </ul>
+          </li>
+        ))}
+      </ul>
+      <AddNewCategory addCategory={(newCategory) => addCategory(newCategory)} />
     </main>
   );
 }
