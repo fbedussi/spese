@@ -1,18 +1,18 @@
-import { filteredData, limits } from '../data';
-import { createEffect } from 'solid-js';
-import type { Expense } from '~/types';
 import {
+  BarController,
+  BarElement,
   CategoryScale,
   Chart,
-  LinearScale,
-  BarController,
-  LineElement,
-  BarElement,
-  Legend,
-  Tooltip,
-  Filler,
   Colors,
+  Filler,
+  Legend,
+  LineElement,
+  LinearScale,
+  Tooltip,
 } from 'chart.js';
+import { createEffect } from 'solid-js';
+import type { Expense } from '~/types';
+import { filteredData, limits } from '../data';
 import styles from './graph.module.css';
 
 Chart.register([
@@ -44,9 +44,13 @@ export default function LimitGraph() {
       return;
     }
     const labels = Object.keys(expensesByCategory);
+
+    const plannedData = Object.values(limits());
+
     const data = Object.values(expensesByCategory).map((expenses) =>
       expenses.reduce((tot, expense) => tot + expense.value, 0),
     );
+
     if (!chart) {
       chart = new Chart(canvas, {
         type: 'bar',
@@ -55,7 +59,7 @@ export default function LimitGraph() {
           datasets: [
             {
               label: 'pianificate',
-              data: Object.values(limits()),
+              data: plannedData,
             },
             {
               label: 'spese',
@@ -73,7 +77,8 @@ export default function LimitGraph() {
         },
       });
     } else {
-      chart.data.datasets[0].data = data;
+      chart.data.datasets[0].data = plannedData;
+      chart.data.datasets[1].data = data;
       chart.data.labels = labels;
       chart.update();
     }
