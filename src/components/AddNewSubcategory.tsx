@@ -19,6 +19,7 @@ export function AddNewSubcategory(props: {
           type="text"
           ref={inputRef}
           data-testid="add-subcategory-input"
+          placeholder="nuova sotto categoria"
         />
         <input
           type="submit"

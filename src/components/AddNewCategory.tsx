@@ -10,6 +10,7 @@ export function AddNewCategory(props: {
           type="text"
           ref={inputRef}
           data-testid="add-category-input"
+          placeholder="nuova categoria"
         />
         <input
           type="submit"

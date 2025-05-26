@@ -28,7 +28,7 @@ export default function About() {
         {categories().map((category, index) => (
           <li>
             <label class={styles.categoryItem}>
-              <input type="radio" name="subcategory" />
+              <input type="radio" name="category" />
               <CategoryItem category={category} index={index} />
             </label>
 
@@ -38,7 +38,7 @@ export default function About() {
                   <label class={styles.categoryItem}>
                     <input
                       type="radio"
-                      name="subcategory"
+                      name="category"
                       onClick={() => setAddNewSubcategoryToCategory('')}
                     />
                     <SubcategoryItem
