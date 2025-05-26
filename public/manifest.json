@@ -3,13 +3,11 @@
   "name": "Una semplice app per tracciare le spese personali",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "128x128",
-      "type": "image/png"
+      "src": "favicon.ico"
     }
   ],
-  "start_url": "./index.html",
-  "display": "standalone",
+  "start_url": "./",
+  "display": "fullscreen",
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }
