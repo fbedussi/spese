@@ -111,8 +111,10 @@ const toExpenseBe = (expense: Omit<Expense, 'id'>): ExpenseBE => {
   }
 
   return {
-    userId,
     ...expense,
+    // this should came after ...expense to override userId: undefined
+    // in firebase all undefined values cause errors
+    userId,
     date: expense.date.get(),
   };
 };
