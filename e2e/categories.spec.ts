@@ -81,6 +81,28 @@ describe('subcategories', () => {
     await expect(page.getByText('new subcategory')).toBeVisible();
   });
 
+  test('if a subcategory is added twice, an error message is shown', async ({
+    page,
+  }) => {
+    await page.goto('http://localhost:3030/categories?demo&faker');
+
+    await page.getByTestId('add-subcategory-btn').first().click();
+    await page
+      .getByTestId('add-subcategory-input')
+      .first()
+      .fill('new subcategory');
+    await page.getByTestId('add-subcategory-btn').first().click();
+
+    await page.getByTestId('add-subcategory-btn').first().click();
+    await page
+      .getByTestId('add-subcategory-input')
+      .first()
+      .fill('new subcategory');
+    await page.getByTestId('add-subcategory-btn').first().click();
+
+    await expect(page.getByText('Sotto categoria già presente')).toBeVisible();
+  });
+
   test('a subcategory can be modified', async ({ page }) => {
     await page.goto('http://localhost:3030/categories?demo&faker');
 
@@ -104,6 +126,20 @@ describe('categories', () => {
     await page.getByTestId('add-category-input').first().fill('new category');
     await page.getByTestId('add-category-btn').first().click();
     await expect(page.getByText('new category')).toBeVisible();
+  });
+
+  test('if a category is added twice, an error toast is shown', async ({
+    page,
+  }) => {
+    await page.goto('http://localhost:3030/categories?demo&faker');
+
+    await page.getByTestId('add-category-input').first().fill('new category');
+    await page.getByTestId('add-category-btn').first().click();
+
+    await page.getByTestId('add-category-input').first().fill('new category');
+    await page.getByTestId('add-category-btn').first().click();
+
+    await expect(page.getByText('Categoria già presente')).toBeVisible();
   });
 
   test('a category can be modified', async ({ page }) => {

@@ -1,0 +1,11 @@
+.toast {
+    padding: var(--pico-spacing);
+    background-color: var(--pico-secondary-background);
+    color: var(--pico-secondary-inverse);
+    border: solid 1px var(--pico-secondary-border);
+    border-radius: var(--pico-border-radius);
+    bottom: 2rem;
+    top: auto;
+    right: 2rem;
+    left: auto;
+}

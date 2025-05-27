@@ -6,11 +6,14 @@ import { AddNewCategory } from '~/components/AddNewCategory';
 import { AddNewSubcategory } from '~/components/AddNewSubcategory';
 import { CategoryItem } from '~/components/CategoryItem';
 import { SubcategoryItem } from '~/components/SubcategoryItem';
+import { Toast } from '~/components/Toast';
 import styles from './categories.module.css';
 
 export default function About() {
   const [addNewSubcategoryToCategory, setAddNewSubcategoryToCategory] =
     createSignal('');
+
+  const [errorMessage, setErrorMessage] = createSignal('');
 
   return (
     <main class={styles.main}>
@@ -53,16 +56,29 @@ export default function About() {
                 <AddNewSubcategory
                   showForm={addNewSubcategoryToCategory() === category}
                   setShowForm={() => setAddNewSubcategoryToCategory(category)}
-                  addSubcategory={(newSubcategory) =>
-                    addSubcategory(category, newSubcategory)
-                  }
+                  addSubcategory={(newSubcategory) => {
+                    const { error } = addSubcategory(category, newSubcategory);
+                    if (error) {
+                      setErrorMessage('Sotto categoria già presente');
+                    }
+                  }}
                 />
               </li>
             </ul>
           </li>
         ))}
       </ul>
-      <AddNewCategory addCategory={(newCategory) => addCategory(newCategory)} />
+      <AddNewCategory
+        addCategory={(newCategory) => {
+          const { error } = addCategory(newCategory);
+          if (error) {
+            setErrorMessage('Categoria già presente');
+          }
+        }}
+      />
+      <Toast open={!!errorMessage()} autocloseAfter={2000}>
+        {errorMessage()}
+      </Toast>
     </main>
   );
 }

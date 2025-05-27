@@ -18,7 +18,10 @@ export function AddNewCategory(props: {
           data-testid="add-category-btn"
           onClick={(ev) => {
             ev.preventDefault();
-            inputRef?.value && props.addCategory(inputRef.value);
+            if (inputRef?.value) {
+              props.addCategory(inputRef.value);
+              inputRef.value = '';
+            }
           }}
         />
       </fieldset>

@@ -27,11 +27,17 @@ export function AddNewSubcategory(props: {
           data-testid="add-subcategory-btn"
           onClick={(ev) => {
             ev.preventDefault();
+
+            if (!inputRef) {
+              return;
+            }
+
             if (props.showForm) {
-              inputRef?.value && props.addSubcategory(inputRef.value);
+              props.addSubcategory(inputRef.value);
+              inputRef.value = '';
             } else {
               props.setShowForm();
-              inputRef?.focus();
+              inputRef.focus();
             }
           }}
         />

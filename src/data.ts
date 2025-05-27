@@ -199,7 +199,7 @@ export const editCategory = (props: {
   }
 };
 
-export const addCategory = (newCategory: string) => {
+export const addCategory = (newCategory: string): { error?: string } => {
   if (!categories().includes(newCategory)) {
     const updatedCategories = categories().concat(newCategory);
     const updatedSubcategories = {
@@ -213,10 +213,19 @@ export const addCategory = (newCategory: string) => {
     } else {
       backend.updateCategories(updatedCategories, updatedSubcategories);
     }
+
+    return {};
   }
+
+  return {
+    error: 'category already present',
+  };
 };
 
-export const addSubcategory = (category: string, newSubcategory: string) => {
+export const addSubcategory = (
+  category: string,
+  newSubcategory: string,
+): { error?: string } => {
   if (
     subCategories()[category] &&
     !subCategories()[category].includes(newSubcategory)
@@ -230,7 +239,13 @@ export const addSubcategory = (category: string, newSubcategory: string) => {
     } else {
       backend.updateCategories(categories(), updatedSubcategories);
     }
+
+    return {};
   }
+
+  return {
+    error: 'subcategory already present',
+  };
 };
 
 const [limits_, setLimits_] = createSignal<Record<string, number>>({});
