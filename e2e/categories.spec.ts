@@ -105,4 +105,30 @@ describe('categories', () => {
     await page.getByTestId('add-category-btn').first().click();
     await expect(page.getByText('new category')).toBeVisible();
   });
+
+  test('a category can be modified', async ({ page }) => {
+    await page.goto('http://localhost:3030/categories?demo&faker');
+
+    await page.getByText('restaurant').click();
+    await page
+      .getByTestId('category-restaurant')
+      .getByTestId('category-edit-input')
+      .fill('restaurant2');
+    await page
+      .getByTestId('category-restaurant')
+      .getByRole('button', { name: 'salva categoria restaurant' })
+      .click();
+    await expect(page.getByText('restaurant2')).toBeVisible();
+  });
+
+  test('a category can be deleted', async ({ page }) => {
+    await page.goto('http://localhost:3030/categories?demo&faker');
+
+    await expect(page.getByText('restaurant')).toBeVisible();
+    await page.getByText('restaurant').click();
+    await page
+      .getByRole('button', { name: 'cancella categoria restaurant' })
+      .click();
+    await expect(page.getByText('restaurant')).not.toBeAttached();
+  });
 });
