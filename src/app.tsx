@@ -37,6 +37,7 @@ function LoginForm(props: {
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = createSignal(!!getUserId());
+  const demoMode = window.location.search.includes('demo');
   return (
     <Router
       root={(props) => (
@@ -49,7 +50,7 @@ export default function App() {
           <header>
             <h1>Traccia spese</h1>
           </header>
-          {isAuthenticated() ? (
+          {isAuthenticated() || demoMode ? (
             <Suspense>{props.children}</Suspense>
           ) : (
             <LoginForm setIsAuthenticated={setIsAuthenticated} />

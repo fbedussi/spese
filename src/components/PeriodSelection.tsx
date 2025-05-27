@@ -29,7 +29,7 @@ export default function PeriodSelection() {
   const [dialogOpen, setDialogOpen] = createSignal(false);
 
   if (!searchParams.period) {
-    setSearchParams({ period: '1m' });
+    setSearchParams({ period: 'mese' });
   }
 
   return (

@@ -34,7 +34,7 @@ export function ExpensesList() {
             .sort((a, b) => (a.date.gte(b.date) ? -1 : 1))
             .filter(({ category }) => !disabledCategories().includes(category))
             .map((expense) => (
-              <tr>
+              <tr data-testid={`expense-${expense.name}`}>
                 <td>{format(expense.date.getDate(), 'dd/MM')}</td>
                 <td>{expense.name}</td>
                 <td>{formatMoney(expense.value)}</td>

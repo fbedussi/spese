@@ -12,11 +12,12 @@ import {
 } from './types';
 
 const demoMode = window.location.search.includes('demo');
+const fakerOn = window.location.search.includes('faker');
 
 export const [data, setData] = createSignal<Expense[]>([]);
 
 if (demoMode) {
-  setData(faker.fakeExpenses(50));
+  setData(fakerOn ? faker.fakeExpenses(50) : []);
 } else {
   backend.getExpenses(setData);
 }
@@ -93,9 +94,6 @@ export const addExpense = (formData: { [k: string]: FormDataEntryValue }) => {
   if (typeof formData.category !== 'string') {
     throw new Error('bad category');
   }
-  if (typeof formData.subcategory !== 'string') {
-    throw new Error('bad subcategory');
-  }
   if (typeof formData.span !== 'string') {
     throw new Error('bad span');
   }
@@ -106,7 +104,7 @@ export const addExpense = (formData: { [k: string]: FormDataEntryValue }) => {
     name: formData.name,
     date: new YyyyMmDd(formData.date),
     category: formData.category,
-    subcategory: formData.subcategory,
+    subcategory: formData.subcategory || '',
     span: Number(formData.span),
     value: Number(formData.value),
   } as Omit<Expense, 'id'>;
@@ -128,8 +126,8 @@ export const [subCategories, setSubCategories] = createSignal<
 >({});
 
 if (demoMode) {
-  setCategories(faker.categories);
-  setSubCategories(faker.subcategories);
+  setCategories(fakerOn ? faker.categories : []);
+  setSubCategories(fakerOn ? faker.subcategories : {});
 } else {
   backend.getCategories(setCategories, setSubCategories);
 }
@@ -240,12 +238,16 @@ const [limits_, setLimits_] = createSignal<Record<string, number>>({});
 export const limits = limits_;
 
 if (demoMode) {
-  setLimits_({
-    car: 1000,
-    motorbike: 1500,
-    food: 3000,
-    restaurant: 500,
-  });
+  setLimits_(
+    fakerOn
+      ? {
+          car: 1000,
+          motorbike: 1500,
+          food: 3000,
+          restaurant: 500,
+        }
+      : {},
+  );
 } else {
   backend.getLimits(setLimits_);
 }

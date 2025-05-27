@@ -5,7 +5,7 @@ import {
   YyyyMmDd,
 } from './types';
 
-const names = ['foo', 'baz', 'bar'];
+const names = ['expense1', 'expense2', 'expense3'];
 
 export const categories: Categories = [
   'other',
