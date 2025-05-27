@@ -33,7 +33,7 @@ describe('add expense', () => {
   test('an expense is added', async ({ page }) => {
     await addCategory(page);
 
-    await addExpense(page, { name: 'foo', value: 1 });
+    await addExpense(page, { name: 'foo', value: 1.1 }); // the value must be decimal, to check that decimals value are allowed
     await expect(
       page.getByTestId('expense-list').getByRole('cell', { name: 'foo' }),
     ).toBeVisible();

@@ -62,7 +62,7 @@ export function AddExpense() {
             <div class="twoCols">
               <label>
                 €
-                <input type="number" name="value" required />
+                <input type="number" name="value" step={0.01} required />
               </label>
               <label>
                 Periodo (in mesi)
